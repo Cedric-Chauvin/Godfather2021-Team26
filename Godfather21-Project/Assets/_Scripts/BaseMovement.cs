@@ -5,7 +5,8 @@ using UnityEngine;
 public class BaseMovement : MonoBehaviour
 {
     public Vector2 battleDirection;
-    public int maxAngleDirection;
+    public int maxAngleDirectionIdled;
+    public int maxAngleDirectionDirected;
     public float timeBetweenDirectionChange;
     public float walkSpeed;
 
@@ -29,7 +30,7 @@ public class BaseMovement : MonoBehaviour
         //    ChangeMoveType(MOVEMENTTYPE.REGROUP, Camera.main.ScreenToWorldPoint(Input.mousePosition));
         //if (Input.GetMouseButtonUp(0))
         //    ChangeMoveType(MOVEMENTTYPE.IDLE);
-        //if(Input.GetKeyDown(KeyCode.D))
+        //if (Input.GetKeyDown(KeyCode.D))
         //    ChangeMoveType(MOVEMENTTYPE.LISTEN, Vector2.right);
         //if (Input.GetKeyUp(KeyCode.D))
         //    ChangeMoveType(MOVEMENTTYPE.IDLE);
@@ -60,8 +61,8 @@ public class BaseMovement : MonoBehaviour
         }
         else
         {
-            int r = Random.Range(-maxAngleDirection, maxAngleDirection);
-            currentDirection = VectorUtils.rotate(battleDirection, r).normalized;
+            int r = Random.Range(-maxAngleDirectionIdled, maxAngleDirectionIdled);
+            currentDirection = VectorUtils.Rotate(battleDirection, r).normalized;
             timer = Random.Range(0, timeBetweenDirectionChange);
         }
     }
@@ -72,10 +73,10 @@ public class BaseMovement : MonoBehaviour
         switch (type)
         {
             case MOVEMENTTYPE.REGROUP:
-                currentDirection = (vector - (Vector2)transform.position).normalized;
+                currentDirection = VectorUtils.Rotate((vector - (Vector2)transform.position).normalized,Random.Range(-maxAngleDirectionDirected,maxAngleDirectionDirected));
                 break;
             case MOVEMENTTYPE.LISTEN:
-                currentDirection = vector.normalized;
+                currentDirection = VectorUtils.Rotate(vector.normalized, Random.Range(-maxAngleDirectionDirected, maxAngleDirectionDirected));
                 break;
         }
     }

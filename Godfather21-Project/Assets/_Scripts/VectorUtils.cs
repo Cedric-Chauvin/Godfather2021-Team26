@@ -5,7 +5,7 @@ using UnityEngine;
 public class VectorUtils
 {
 
-    public static Vector2 rotate(Vector2 v, float delta)
+    public static Vector2 Rotate(Vector2 v, float delta)
     {
         delta *= Mathf.Deg2Rad;
         return new Vector2(

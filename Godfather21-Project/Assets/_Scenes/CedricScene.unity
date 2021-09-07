@@ -157,7 +157,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   battleDirection: {x: 0, y: -1}
-  maxAngleDirection: 130
+  maxAngleDirectionIdled: 120
+  maxAngleDirectionDirected: 20
   timeBetweenDirectionChange: 2
   walkSpeed: 0.5
 --- !u!58 &318610418
@@ -294,7 +295,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   battleDirection: {x: 0, y: -1}
-  maxAngleDirection: 130
+  maxAngleDirectionIdled: 120
+  maxAngleDirectionDirected: 20
   timeBetweenDirectionChange: 2
   walkSpeed: 0.5
 --- !u!58 &640880655
@@ -431,7 +433,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   battleDirection: {x: 0, y: -1}
-  maxAngleDirection: 130
+  maxAngleDirectionIdled: 120
+  maxAngleDirectionDirected: 20
   timeBetweenDirectionChange: 2
   walkSpeed: 0.5
 --- !u!58 &693117843
@@ -568,7 +571,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   battleDirection: {x: 0, y: -1}
-  maxAngleDirection: 130
+  maxAngleDirectionIdled: 120
+  maxAngleDirectionDirected: 20
   timeBetweenDirectionChange: 2
   walkSpeed: 0.5
 --- !u!58 &700646055
@@ -705,7 +709,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   battleDirection: {x: 0, y: -1}
-  maxAngleDirection: 130
+  maxAngleDirectionIdled: 120
+  maxAngleDirectionDirected: 20
   timeBetweenDirectionChange: 2
   walkSpeed: 0.5
 --- !u!58 &920351726
@@ -842,7 +847,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   battleDirection: {x: 0, y: -1}
-  maxAngleDirection: 130
+  maxAngleDirectionIdled: 120
+  maxAngleDirectionDirected: 20
   timeBetweenDirectionChange: 2
   walkSpeed: 0.5
 --- !u!58 &1170590035
@@ -979,7 +985,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   battleDirection: {x: 0, y: -1}
-  maxAngleDirection: 130
+  maxAngleDirectionIdled: 120
+  maxAngleDirectionDirected: 20
   timeBetweenDirectionChange: 2
   walkSpeed: 0.5
 --- !u!58 &1543318533
@@ -1199,7 +1206,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   battleDirection: {x: 0, y: -1}
-  maxAngleDirection: 130
+  maxAngleDirectionIdled: 120
+  maxAngleDirectionDirected: 20
   timeBetweenDirectionChange: 2
   walkSpeed: 0.5
 --- !u!58 &2036988680

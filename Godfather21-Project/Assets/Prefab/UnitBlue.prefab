@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 44467912111275119}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.04, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -123,7 +123,11 @@ MonoBehaviour:
   maxAngleDirectionDirected: 20
   timeBetweenDirectionChange: 2
   battleMaxTime: 10
-  walkSpeed: 1.5
+  walkSpeed: 1
+  isControlled: 0
+  PawnDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!58 &44467912111275117
 CircleCollider2D:
   m_ObjectHideFlags: 0

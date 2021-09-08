@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Pawn : MonoBehaviour
 {
@@ -24,11 +25,19 @@ public class Pawn : MonoBehaviour
     private Rigidbody2D rgb = null;
     private GameObject Enemy = null;
     private Coroutine coroutine = null;
+    [HideInInspector]
+    public bool isControlled = false;
+    public UnityEvent<Pawn> PawnDeath;
 
     private void Start()
     {
         rgb = GetComponent<Rigidbody2D>();
 
+    }
+
+    private void OnDestroy()
+    {
+        PawnDeath.Invoke(this);
     }
 
     // Update is called once per frame
@@ -56,9 +65,6 @@ public class Pawn : MonoBehaviour
                 break;
             case MOVEMENT_TYPE.BATTLE:
                 Battle();
-                break;
-            case MOVEMENT_TYPE.CONTROLED:
-                rgb.velocity = Vector2.zero;
                 break;
         }
     }
@@ -96,7 +102,7 @@ public class Pawn : MonoBehaviour
     {
         if(!Enemy)
         {
-            movetype = MOVEMENT_TYPE.IDLE;
+            movetype = isControlled ? MOVEMENT_TYPE.CONTROLED : MOVEMENT_TYPE.IDLE;
             return;
         }
         rgb.velocity = Vector2.zero;
@@ -120,7 +126,7 @@ public class Pawn : MonoBehaviour
                 Destroy(gameObject);
             else
             {
-                ChangeMoveType(MOVEMENT_TYPE.BATTLE);
+                movetype = MOVEMENT_TYPE.BATTLE;
                 Enemy = collision.gameObject;
                 battleTimer = battleMaxTime;
                 rgb.velocity = Vector2.zero;
@@ -143,13 +149,17 @@ public class Pawn : MonoBehaviour
         if (collision.gameObject == Enemy)
         {
             Enemy = null;
-            ChangeMoveType(MOVEMENT_TYPE.IDLE);
+            movetype = isControlled ? MOVEMENT_TYPE.CONTROLED : MOVEMENT_TYPE.IDLE;
         }
+        if (collision.name == "Crown")
+            ChangeMoveType(MOVEMENT_TYPE.IDLE);
     }
 
     public void ChangeMoveType(MOVEMENT_TYPE type , Vector2 vector = default(Vector2),float duration = 0)
     {
-        if (movetype == MOVEMENT_TYPE.CONTROLED)
+        if (movetype == MOVEMENT_TYPE.BATTLE)
+            return;
+        if (movetype == MOVEMENT_TYPE.CONTROLED && type != MOVEMENT_TYPE.IDLE)
             return;
         movetype = type;
         switch (type)
@@ -169,8 +179,15 @@ public class Pawn : MonoBehaviour
             case MOVEMENT_TYPE.CONTROLED:
                 if (coroutine != null)
                     StopCoroutine(coroutine);
+                isControlled = true;
                 break;
         }
+    }
+
+    public void ControlledMove(Vector2 direction)
+    {
+        if(!(movetype == MOVEMENT_TYPE.BATTLE))
+            rgb.velocity = direction;
     }
 
     private IEnumerator ResetMoveType(float time)

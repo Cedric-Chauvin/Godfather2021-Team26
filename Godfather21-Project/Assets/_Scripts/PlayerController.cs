@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
     private bool fire;
     private bool canRally = true;
     private bool canOrder = true;
-    private Pawn[] teamPawns;
+    private List<Pawn> teamPawns = new List<Pawn>();
 
     void Awake()
     {
@@ -38,10 +38,11 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         GameObject[] temp = GameObject.FindGameObjectsWithTag(playerID == 0?"Ally":"Enemy");
-        teamPawns = new Pawn[temp.Length];
         for (int i = 0; i < temp.Length; i++)
         {
-            teamPawns[i] = temp[i].GetComponent<Pawn>();
+            Pawn p = temp[i].GetComponent<Pawn>();
+            teamPawns.Add(p);
+            p.PawnDeath.AddListener(RemovePawn);
         }
         collider = GetComponent<Collider2D>();
         crown.allyPickedUpCrown.AddListener(AssignSoldier);
@@ -70,6 +71,7 @@ public class PlayerController : MonoBehaviour
             {
                 crown.ReturnCrown();
                 allyWithCrown.ChangeMoveType(Pawn.MOVEMENT_TYPE.IDLE);
+                allyWithCrown.isControlled = false;
                 allyWithCrown = null;
                 soldierHasCrown = false;
                 return;
@@ -84,7 +86,7 @@ public class PlayerController : MonoBehaviour
 
     private void Order(Vector2 direction)
     {
-        for (int i = 0; i < teamPawns.Length; i++)
+        for (int i = 0; i < teamPawns.Count; i++)
         {
             teamPawns[i].ChangeMoveType(Pawn.MOVEMENT_TYPE.LISTEN, direction, orderDuration);
         }
@@ -142,6 +144,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void RemovePawn(Pawn pawn)
+    {
+        teamPawns.Remove(pawn);
+        if (allyWithCrown == pawn)
+            ;//defeat
+    }
 
     public void AssignSoldier(GameObject ally)
     {
@@ -154,7 +162,7 @@ public class PlayerController : MonoBehaviour
     public void MoveSoldier()
     {
         Vector2 moveDirection = new Vector2(player.GetAxis("Move Horizontal"), player.GetAxis("Move Vertical"));
-        allyWithCrown.transform.Translate(moveDirection * soldierSpeed * Time.deltaTime);
+        allyWithCrown.ControlledMove(moveDirection * soldierSpeed);
     }
 
     IEnumerator RallyTimer()

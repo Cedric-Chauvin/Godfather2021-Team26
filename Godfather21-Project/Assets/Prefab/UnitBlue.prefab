@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 44467912111275117}
   - component: {fileID: 7519168284060574786}
   m_Layer: 0
-  m_Name: Unit
+  m_Name: UnitBlue
   m_TagString: Ally
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: c9e1a047f326467499861d3fb6627c08, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -118,12 +118,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 714411bbb91f5e44d9471a57953a3cfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  battleDirection: {x: 0, y: -1}
+  battleDirection: {x: 1, y: 0}
   maxAngleDirectionIdled: 120
   maxAngleDirectionDirected: 20
   timeBetweenDirectionChange: 2
   battleMaxTime: 10
-  walkSpeed: 0.5
+  walkSpeed: 1.5
 --- !u!58 &44467912111275117
 CircleCollider2D:
   m_ObjectHideFlags: 0

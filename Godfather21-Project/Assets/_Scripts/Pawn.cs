@@ -17,6 +17,7 @@ public class Pawn : MonoBehaviour
     private float battleTimer = 0;
     private Rigidbody2D rgb = null;
     private GameObject Enemy = null;
+    private Coroutine coroutine = null;
 
     private void Start()
     {
@@ -49,6 +50,9 @@ public class Pawn : MonoBehaviour
                 break;
             case MOVEMENT_TYPE.BATTLE:
                 Battle();
+                break;
+            case MOVEMENT_TYPE.CONTROLED:
+                rgb.velocity = Vector2.zero;
                 break;
         }
     }
@@ -142,21 +146,31 @@ public class Pawn : MonoBehaviour
         }
     }
 
-    public void ChangeMoveType(MOVEMENT_TYPE type , Vector2 vector = default(Vector2))
+    public void ChangeMoveType(MOVEMENT_TYPE type , Vector2 vector = default(Vector2),float duration = 0)
     {
         movetype = type;
         switch (type)
         {
             case MOVEMENT_TYPE.REGROUP:
                 currentDirection = VectorUtils.Rotate((vector - (Vector2)transform.position).normalized,Random.Range(-maxAngleDirectionDirected,maxAngleDirectionDirected));
+                if (coroutine != null)
+                    StopCoroutine(coroutine);
+                coroutine = StartCoroutine(ResetMoveType(duration));
                 break;
             case MOVEMENT_TYPE.LISTEN:
                 currentDirection = VectorUtils.Rotate(vector.normalized, Random.Range(-maxAngleDirectionDirected, maxAngleDirectionDirected));
-                break;
-            case MOVEMENT_TYPE.CONTROLED:
-                rgb.velocity = Vector2.zero;
+                if (coroutine != null)
+                    StopCoroutine(coroutine);
+                coroutine = StartCoroutine(ResetMoveType(duration));
                 break;
         }
+    }
+
+    private IEnumerator ResetMoveType(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        movetype = MOVEMENT_TYPE.IDLE;
     }
 
     public enum MOVEMENT_TYPE

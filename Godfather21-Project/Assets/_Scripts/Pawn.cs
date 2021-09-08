@@ -28,16 +28,24 @@ public class Pawn : MonoBehaviour
     [HideInInspector]
     public bool isControlled = false;
     public UnityEvent<Pawn> PawnDeath;
+    private GameObject mortIcone = null;
+    private Transform CombatIcone = null;
 
     private void Start()
     {
         rgb = GetComponent<Rigidbody2D>();
-
+        GetComponentInChildren<Animator>().Play("Move",0,Random.value);
+        mortIcone = transform.GetChild(1).gameObject;
+        CombatIcone = transform.GetChild(2);
     }
 
     private void OnDestroy()
     {
         PawnDeath.Invoke(this);
+        mortIcone.SetActive(true);
+        mortIcone.transform.parent = null;
+        mortIcone.GetComponent<Animator>().enabled = true;
+        Destroy(mortIcone, 1);
     }
 
     // Update is called once per frame
@@ -103,6 +111,7 @@ public class Pawn : MonoBehaviour
         if(!Enemy)
         {
             movetype = isControlled ? MOVEMENT_TYPE.CONTROLED : MOVEMENT_TYPE.IDLE;
+            CombatIcone.gameObject.SetActive(false);
             return;
         }
         rgb.velocity = Vector2.zero;
@@ -110,6 +119,7 @@ public class Pawn : MonoBehaviour
             battleTimer -= Time.deltaTime;
             if (battleTimer < 0)
             {
+                CombatIcone.gameObject.SetActive(false);
                 if (Random.value < 0.5)
                     Destroy(gameObject);
                 else
@@ -130,6 +140,11 @@ public class Pawn : MonoBehaviour
                 Enemy = collision.gameObject;
                 battleTimer = battleMaxTime;
                 rgb.velocity = Vector2.zero;
+                if(tag == "Ally")
+                {
+                    CombatIcone.position = (transform.position + Enemy.transform.position) / 2;
+                    CombatIcone.gameObject.SetActive(true);
+                }
             }
             return;
         }
@@ -150,6 +165,7 @@ public class Pawn : MonoBehaviour
         {
             Enemy = null;
             movetype = isControlled ? MOVEMENT_TYPE.CONTROLED : MOVEMENT_TYPE.IDLE;
+            CombatIcone.gameObject.SetActive(false);
         }
         if (collision.name == "Crown")
             ChangeMoveType(MOVEMENT_TYPE.IDLE);

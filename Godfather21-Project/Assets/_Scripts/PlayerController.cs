@@ -30,10 +30,13 @@ public class PlayerController : MonoBehaviour
     private bool canRally = true;
     private bool canOrder = true;
     private List<Pawn> teamPawns = new List<Pawn>();
+    private Transform mortIcone = null;
 
     void Awake()
     {
         player = Rewired.ReInput.players.GetPlayer(playerID);
+        GetComponent<Animator>().Play("Idle", 0, Random.value);
+        mortIcone = transform.GetChild(0);
     }
 
     private void Start()

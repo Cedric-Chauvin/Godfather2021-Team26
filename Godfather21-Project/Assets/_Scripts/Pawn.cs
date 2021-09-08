@@ -28,14 +28,14 @@ public class Pawn : MonoBehaviour
     private void Update()
     {
         #region DEBUG
-        if (Input.GetMouseButtonDown(0))
-            ChangeMoveType(MOVEMENT_TYPE.REGROUP, Camera.main.ScreenToWorldPoint(Input.mousePosition));
-        if (Input.GetMouseButtonUp(0))
-            ChangeMoveType(MOVEMENT_TYPE.IDLE);
-        if (Input.GetKeyDown(KeyCode.D))
-            ChangeMoveType(MOVEMENT_TYPE.LISTEN, Vector2.right);
-        if (Input.GetKeyUp(KeyCode.D))
-            ChangeMoveType(MOVEMENT_TYPE.IDLE);
+        //if (Input.GetMouseButtonDown(0))
+        //    ChangeMoveType(MOVEMENT_TYPE.REGROUP, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        //if (Input.GetMouseButtonUp(0))
+        //    ChangeMoveType(MOVEMENT_TYPE.IDLE);
+        //if (Input.GetKeyDown(KeyCode.D))
+        //    ChangeMoveType(MOVEMENT_TYPE.LISTEN, Vector2.right);
+        //if (Input.GetKeyUp(KeyCode.D))
+        //    ChangeMoveType(MOVEMENT_TYPE.IDLE);
         #endregion
 
         switch (movetype)
@@ -50,9 +50,6 @@ public class Pawn : MonoBehaviour
             case MOVEMENT_TYPE.BATTLE:
                 Battle();
                 break;
-            case MOVEMENT_TYPE.CONTROLED:
-                rgb.velocity = Vector2.zero;
-                break;
         }
     }
 
@@ -65,16 +62,21 @@ public class Pawn : MonoBehaviour
         }
         else
         {
-            int r = Random.Range(-maxAngleDirectionIdled, maxAngleDirectionIdled);
-            currentDirection = VectorUtils.Rotate(battleDirection, r).normalized;
+            int angle = Random.Range(-maxAngleDirectionIdled, maxAngleDirectionIdled);
+            currentDirection = VectorUtils.Rotate(battleDirection, angle).normalized;
             RaycastHit2D hit = Physics2D.Raycast(transform.position, currentDirection, 2,1<<6);
-            Debug.DrawLine(transform.position, (Vector2)transform.position + currentDirection * 2,Color.white,1);
+            //Debug.DrawLine(transform.position, (Vector2)transform.position + currentDirection * 2, Color.white, 1);
             if (hit)
             {
-                Vector2 impactVector = hit.point - (Vector2)hit.transform.position;
-                currentDirection.x = (impactVector.x + hit.normal.x * impactVector.x);
-                currentDirection.y = (impactVector.y + hit.normal.y * impactVector.y);
-                currentDirection = currentDirection.normalized;
+                if (Mathf.Abs(angle) > 70)
+                    currentDirection = VectorUtils.Rotate(currentDirection, 90 * Mathf.Sign(-angle));
+                else
+                {
+                    Vector2 impactVector = hit.point - (Vector2)hit.transform.position;
+                    currentDirection.x = (impactVector.x + hit.normal.x * impactVector.x);
+                    currentDirection.y = (impactVector.y + hit.normal.y * impactVector.y);
+                    currentDirection = currentDirection.normalized;
+                }
             }
             timer = Random.Range(0, timeBetweenDirectionChange);
         }
@@ -115,7 +117,7 @@ public class Pawn : MonoBehaviour
             }
             return;
         }
-        if(tag == "Ally" && collision.name == "Crown")
+        if(collision.name == "Crown")
         {
             if (movetype == MOVEMENT_TYPE.CROWN_DIRECTION)
             {
@@ -150,6 +152,9 @@ public class Pawn : MonoBehaviour
                 break;
             case MOVEMENT_TYPE.LISTEN:
                 currentDirection = VectorUtils.Rotate(vector.normalized, Random.Range(-maxAngleDirectionDirected, maxAngleDirectionDirected));
+                break;
+            case MOVEMENT_TYPE.CONTROLED:
+                rgb.velocity = Vector2.zero;
                 break;
         }
     }

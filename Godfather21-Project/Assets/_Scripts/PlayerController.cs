@@ -11,14 +11,23 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject crownPrefab;
     CrownThrow crown;
 
-    GameObject allyWithCrown = null;
+    Pawn allyWithCrown = null;
     [SerializeField] float soldierSpeed = 2;
+    [SerializeField] float rallingRadius = 3;
+    [SerializeField] float rallingDuration = 3;
+    [SerializeField] float rallingCooldown = 4;
+    [SerializeField] Vector2 battledirection;
+    [SerializeField] float orderDuration = 3;
+    [SerializeField] float orderCooldown = 4;
 
     private Vector3 throwDirection;
     Vector2 tempDirection;
     public bool kingHasCrown = true;
     bool soldierHasCrown = false;
     private bool fire;
+    private bool canRally = true;
+    private bool canOrder = true;
+    private Pawn[] teamPawns;
 
     void Awake()
     {
@@ -27,7 +36,12 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-
+        GameObject[] temp = GameObject.FindGameObjectsWithTag("Ally");
+        teamPawns = new Pawn[temp.Length];
+        for (int i = 0; i < temp.Length; i++)
+        {
+            teamPawns[i] = temp[i].GetComponent<Pawn>();
+        }
         collider = GetComponent<Collider2D>();
     }
 
@@ -36,20 +50,57 @@ public class PlayerController : MonoBehaviour
         if (kingHasCrown)
         {
             ThrowCrown();
+            if (canOrder)
+            {
+                if (player.GetButtonDown("OrderUp"))
+                    Order(battledirection);
+                else if (player.GetButtonDown("OrderDown"))
+                    Order(-battledirection);
+                else if (player.GetButtonDown("OrderRight"))
+                    Order(VectorUtils.Rotate(battledirection, -90));
+                else if (player.GetButtonDown("OrderLeft"))
+                    Order(VectorUtils.Rotate(battledirection, 90));
+            }
         }
         else if (soldierHasCrown)
         {
             if (player.GetButtonDown("Fire"))
             {
-                crown.GetComponent<CrownThrow>().returnToKing = true;
+                crown.returnToKing = true;
                 crown.GetComponent<Collider2D>().enabled = true;
-                allyWithCrown.GetComponent<Pawn>().ChangeMoveType(Pawn.MOVEMENT_TYPE.IDLE);
+                allyWithCrown.ChangeMoveType(Pawn.MOVEMENT_TYPE.IDLE);
                 allyWithCrown = null;
                 soldierHasCrown = false;
                 return;
             }
+            if(player.GetButtonDown("Rallying") && canRally)
+            {
+                Ralling();
+            }
             MoveSoldier();
         }
+    }
+
+    private void Order(Vector2 direction)
+    {
+        for (int i = 0; i < teamPawns.Length; i++)
+        {
+            teamPawns[i].ChangeMoveType(Pawn.MOVEMENT_TYPE.LISTEN, direction, orderDuration);
+        }
+        StartCoroutine(OrderTimer());
+    }
+
+    private void Ralling()
+    {
+        ContactFilter2D contactFilter = new ContactFilter2D();
+        contactFilter.useTriggers = false;
+        List<Collider2D> result = new List<Collider2D>();
+        int nbCollider = Physics2D.OverlapCircle(allyWithCrown.transform.position, rallingRadius, contactFilter, result);
+        for (int i = 0; i < nbCollider; i++)
+        {
+            result[i].GetComponent<Pawn>().ChangeMoveType(Pawn.MOVEMENT_TYPE.REGROUP, allyWithCrown.transform.position, rallingDuration);
+        }
+        StartCoroutine(RallyTimer());
     }
 
     public void ThrowCrown()
@@ -84,9 +135,9 @@ public class PlayerController : MonoBehaviour
 
     public void AssignSoldier(GameObject ally)
     {
-        allyWithCrown = ally;
+        allyWithCrown = ally.GetComponent<Pawn>();
         Debug.Log("got ally :)");
-        allyWithCrown.GetComponent<Pawn>().ChangeMoveType(Pawn.MOVEMENT_TYPE.CONTROLED);
+        allyWithCrown.ChangeMoveType(Pawn.MOVEMENT_TYPE.CONTROLED);
         soldierHasCrown = true;
     }
 
@@ -94,5 +145,19 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 moveDirection = new Vector2(player.GetAxis("Move Horizontal"), player.GetAxis("Move Vertical"));
         allyWithCrown.transform.Translate(moveDirection * soldierSpeed * Time.deltaTime);
+    }
+
+    IEnumerator RallyTimer()
+    {
+        canRally = false;
+        yield return new WaitForSeconds(rallingCooldown);
+        canRally = true;
+    }
+
+    IEnumerator OrderTimer()
+    {
+        canOrder = false;
+        yield return new WaitForSeconds(orderCooldown);
+        canOrder = true;
     }
 }

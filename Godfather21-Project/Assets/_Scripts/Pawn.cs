@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class Pawn : MonoBehaviour
 {
-    public Vector2 battleDirection;
-    public int maxAngleDirectionIdled = 120;
-    public int maxAngleDirectionDirected = 20;
-    public float timeBetweenDirectionChange = 2;
-    public float battleMaxTime = 10;
-    public float walkSpeed = 0.5f;
+    [SerializeField]
+    private Vector2 battleDirection;
+    [SerializeField]
+    private int maxAngleDirectionIdled = 120;
+    [SerializeField]
+    private int maxAngleDirectionDirected = 20;
+    [SerializeField]
+    private float timeBetweenDirectionChange = 2;
+    [SerializeField]
+    private float battleMaxTime = 10;
+    [SerializeField]
+    private float walkSpeed = 0.5f;
 
     private MOVEMENT_TYPE movetype = MOVEMENT_TYPE.IDLE;
     private Vector2 currentDirection;
@@ -123,12 +129,7 @@ public class Pawn : MonoBehaviour
         }
         if(collision.name == "Crown")
         {
-            if (movetype == MOVEMENT_TYPE.CROWN_DIRECTION)
-            {
-                movetype = MOVEMENT_TYPE.CONTROLED;
-                collision.transform.parent = transform;
-            }
-            else
+            if (!(movetype == MOVEMENT_TYPE.CROWN_DIRECTION))
             {
                 currentDirection = ((Vector2)(collision.transform.position - transform.position)).normalized;
                 movetype = MOVEMENT_TYPE.CROWN_DIRECTION;
@@ -148,6 +149,8 @@ public class Pawn : MonoBehaviour
 
     public void ChangeMoveType(MOVEMENT_TYPE type , Vector2 vector = default(Vector2),float duration = 0)
     {
+        if (movetype == MOVEMENT_TYPE.CONTROLED)
+            return;
         movetype = type;
         switch (type)
         {
@@ -162,6 +165,10 @@ public class Pawn : MonoBehaviour
                 if (coroutine != null)
                     StopCoroutine(coroutine);
                 coroutine = StartCoroutine(ResetMoveType(duration));
+                break;
+            case MOVEMENT_TYPE.CONTROLED:
+                if (coroutine != null)
+                    StopCoroutine(coroutine);
                 break;
         }
     }

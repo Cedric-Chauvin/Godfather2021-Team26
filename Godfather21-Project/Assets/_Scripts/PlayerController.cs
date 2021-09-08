@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        GameObject[] temp = GameObject.FindGameObjectsWithTag("Ally");
+        GameObject[] temp = GameObject.FindGameObjectsWithTag(playerID == 0?"Ally":"Enemy");
         teamPawns = new Pawn[temp.Length];
         for (int i = 0; i < temp.Length; i++)
         {

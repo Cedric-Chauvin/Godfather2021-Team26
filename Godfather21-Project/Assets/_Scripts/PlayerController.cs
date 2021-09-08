@@ -6,6 +6,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private Rewired.Player player;
+    [SerializeField] int playerID =0;
+    [SerializeField] float maxRange = 7;
     [SerializeField] GameObject target;
     [SerializeField] Collider2D collider;
     [SerializeField] GameObject crownPrefab;
@@ -22,7 +24,7 @@ public class PlayerController : MonoBehaviour
 
     void Awake()
     {
-        player = Rewired.ReInput.players.GetPlayer(0);
+        player = Rewired.ReInput.players.GetPlayer(playerID);
     }
 
     private void Start()
@@ -61,14 +63,14 @@ public class PlayerController : MonoBehaviour
         if (throwDirection.x != 0.0f || throwDirection.y != 0.0f)
         {
             target.SetActive(true);
-            target.transform.position = transform.position + throwDirection.normalized * throwDirection.magnitude * -5;
+            target.transform.position = transform.position + throwDirection.normalized * throwDirection.magnitude * -maxRange;
             /*
             for (int i = 0; i < 4; i++)
             {
                 tempDirection[i] = tempDirection[i + 1];
             }
             */
-            tempDirection = throwDirection.normalized * throwDirection.magnitude * -5;
+            tempDirection = throwDirection.normalized * throwDirection.magnitude * -maxRange;
         }
          if (fire)
         {
@@ -77,6 +79,15 @@ public class PlayerController : MonoBehaviour
             crown.targetPos = tempDirection;
             crown.allyPickedUpCrown.AddListener(AssignSoldier);
             crown.kingPos = transform.position;
+
+            if (playerID == 0)
+            {
+                crown.unitTag = "Ally";
+            }
+            else
+            {
+                crown.unitTag = "Enemy";
+            }
             target.SetActive(false);
         }
     }

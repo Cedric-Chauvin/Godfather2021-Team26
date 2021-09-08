@@ -6,13 +6,15 @@ using UnityEngine.Events;
 public class CrownThrow : MonoBehaviour
 {
 
+    [SerializeField] float speed = 1.5f;
     public UnityEvent<GameObject> allyPickedUpCrown; 
     public Vector2 targetPos;
     public Vector2 kingPos;
-    [SerializeField] float speed = 1.5f;
     public bool returnToKing = false;
     public bool stayWithSoldier = false;
     bool hasReachedTarget = false;
+
+    public string unitTag;
 
     private void Start()
     {
@@ -21,7 +23,7 @@ public class CrownThrow : MonoBehaviour
 
     private void Update()
     {
-        if (!stayWithSoldier)
+        if (!stayWithSoldier && !hasReachedTarget)
         {
             bool posXReached = transform.localPosition.x <= targetPos.x + .5 && transform.localPosition.x >= targetPos.x - .5;
             bool posYReached = transform.localPosition.y <= targetPos.y + .5 && transform.localPosition.y >= targetPos.y - .5;
@@ -44,7 +46,7 @@ public class CrownThrow : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.isTrigger && collision.gameObject.CompareTag("Ally") && !returnToKing && hasReachedTarget)
+        if (!collision.isTrigger && collision.gameObject.CompareTag(unitTag) && !returnToKing && hasReachedTarget)
         {
             StopAllCoroutines();
             stayWithSoldier = true;
@@ -57,6 +59,10 @@ public class CrownThrow : MonoBehaviour
         {
             collision.gameObject.GetComponent<PlayerController>().kingHasCrown = true;
             Destroy(this.gameObject);
+        }
+        else if(collision.gameObject.CompareTag("Wall"))
+        {
+            hasReachedTarget = true;
         }
     }
 
@@ -69,7 +75,7 @@ public class CrownThrow : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (!collision.isTrigger && collision.gameObject.CompareTag("Ally") && !returnToKing && hasReachedTarget )
+        if (!collision.isTrigger && collision.gameObject.CompareTag(unitTag) && !returnToKing && hasReachedTarget )
         {
             StopAllCoroutines();
             stayWithSoldier = true;
@@ -77,11 +83,6 @@ public class CrownThrow : MonoBehaviour
             transform.SetParent(collision.transform); // picked up by soldier
             GetComponent<Collider2D>().enabled = false;
             hasReachedTarget = true;
-        }
-        else if (collision.gameObject.CompareTag("Player") && hasReachedTarget)
-        {
-            collision.gameObject.GetComponent<PlayerController>().kingHasCrown = true;
-            Destroy(this.gameObject);
         }
     }
 }

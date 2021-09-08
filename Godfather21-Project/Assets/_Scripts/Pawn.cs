@@ -151,6 +151,8 @@ public class Pawn : MonoBehaviour
             Enemy = null;
             movetype = isControlled ? MOVEMENT_TYPE.CONTROLED : MOVEMENT_TYPE.IDLE;
         }
+        if (collision.name == "Crown")
+            ChangeMoveType(MOVEMENT_TYPE.IDLE);
     }
 
     public void ChangeMoveType(MOVEMENT_TYPE type , Vector2 vector = default(Vector2),float duration = 0)

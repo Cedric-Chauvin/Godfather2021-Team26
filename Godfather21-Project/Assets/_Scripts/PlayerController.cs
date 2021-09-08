@@ -148,6 +148,8 @@ public class PlayerController : MonoBehaviour
     private void RemovePawn(Pawn pawn)
     {
         teamPawns.Remove(pawn);
+        if (allyWithCrown == pawn)
+            ;//defeat
     }
 
     public void AssignSoldier(GameObject ally)

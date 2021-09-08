@@ -10,8 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float maxRange = 7;
     [SerializeField] GameObject target;
     [SerializeField] Collider2D collider;
-    [SerializeField] GameObject crownPrefab;
-    CrownThrow crown;
+    [SerializeField] CrownThrow crown;
 
     Pawn allyWithCrown = null;
     [SerializeField] float soldierSpeed = 2;
@@ -45,6 +44,7 @@ public class PlayerController : MonoBehaviour
             teamPawns[i] = temp[i].GetComponent<Pawn>();
         }
         collider = GetComponent<Collider2D>();
+        crown.allyPickedUpCrown.AddListener(AssignSoldier);
     }
 
     void Update()
@@ -68,8 +68,7 @@ public class PlayerController : MonoBehaviour
         {
             if (player.GetButtonDown("Fire"))
             {
-                crown.returnToKing = true;
-                crown.GetComponent<Collider2D>().enabled = true;
+                crown.ReturnCrown();
                 allyWithCrown.ChangeMoveType(Pawn.MOVEMENT_TYPE.IDLE);
                 allyWithCrown = null;
                 soldierHasCrown = false;
@@ -115,21 +114,21 @@ public class PlayerController : MonoBehaviour
         {
             target.SetActive(true);
             target.transform.position = transform.position + throwDirection.normalized * throwDirection.magnitude * -maxRange;
-            /*
-            for (int i = 0; i < 4; i++)
-            {
-                tempDirection[i] = tempDirection[i + 1];
-            }
-            */
             tempDirection = throwDirection.normalized * throwDirection.magnitude * -maxRange;
+            crown.transform.position = transform.position + throwDirection.normalized;
         }
-         if (fire)
+        else
+        {
+            crown.transform.position = crown.kingHeadOffset + (Vector2)transform.position;
+            target.SetActive(false);
+        }
+
+        if (fire)
         {
             kingHasCrown = false;
-            crown = Instantiate(crownPrefab, transform).GetComponent<CrownThrow>();
             crown.targetPos = tempDirection;
-            crown.allyPickedUpCrown.AddListener(AssignSoldier);
             crown.kingPos = transform.position;
+            crown.ThrowCrown();
 
             if (playerID == 0)
             {

@@ -11,7 +11,7 @@ public class Pawn : MonoBehaviour
     public float battleMaxTime = 10;
     public float walkSpeed = 0.5f;
 
-    private MOVEMENTTYPE movetype = MOVEMENTTYPE.IDLE;
+    private MOVEMENT_TYPE movetype = MOVEMENT_TYPE.IDLE;
     private Vector2 currentDirection;
     private float timer = 0;
     private float battleTimer = 0;
@@ -28,27 +28,30 @@ public class Pawn : MonoBehaviour
     private void Update()
     {
         #region DEBUG
-        //if (Input.GetMouseButtonDown(0))
-        //    ChangeMoveType(MOVEMENTTYPE.REGROUP, Camera.main.ScreenToWorldPoint(Input.mousePosition));
-        //if (Input.GetMouseButtonUp(0))
-        //    ChangeMoveType(MOVEMENTTYPE.IDLE);
-        //if (Input.GetKeyDown(KeyCode.D))
-        //    ChangeMoveType(MOVEMENTTYPE.LISTEN, Vector2.right);
-        //if (Input.GetKeyUp(KeyCode.D))
-        //    ChangeMoveType(MOVEMENTTYPE.IDLE);
+        if (Input.GetMouseButtonDown(0))
+            ChangeMoveType(MOVEMENT_TYPE.REGROUP, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        if (Input.GetMouseButtonUp(0))
+            ChangeMoveType(MOVEMENT_TYPE.IDLE);
+        if (Input.GetKeyDown(KeyCode.D))
+            ChangeMoveType(MOVEMENT_TYPE.LISTEN, Vector2.right);
+        if (Input.GetKeyUp(KeyCode.D))
+            ChangeMoveType(MOVEMENT_TYPE.IDLE);
         #endregion
 
         switch (movetype)
         {
-            case MOVEMENTTYPE.IDLE:
+            case MOVEMENT_TYPE.IDLE:
                 Idle();
                 break;
-            case MOVEMENTTYPE.REGROUP:
-            case MOVEMENTTYPE.LISTEN:
+            case MOVEMENT_TYPE.REGROUP:
+            case MOVEMENT_TYPE.LISTEN:
                 rgb.velocity = currentDirection * walkSpeed;
                 break;
-            case MOVEMENTTYPE.BATTLE:
+            case MOVEMENT_TYPE.BATTLE:
                 Battle();
+                break;
+            case MOVEMENT_TYPE.CONTROLED:
+                rgb.velocity = Vector2.zero;
                 break;
         }
     }
@@ -64,12 +67,26 @@ public class Pawn : MonoBehaviour
         {
             int r = Random.Range(-maxAngleDirectionIdled, maxAngleDirectionIdled);
             currentDirection = VectorUtils.Rotate(battleDirection, r).normalized;
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, currentDirection, 2,1<<6);
+            Debug.DrawLine(transform.position, (Vector2)transform.position + currentDirection * 2,Color.white,1);
+            if (hit)
+            {
+                Vector2 impactVector = hit.point - (Vector2)hit.transform.position;
+                currentDirection.x = (impactVector.x + hit.normal.x * impactVector.x);
+                currentDirection.y = (impactVector.y + hit.normal.y * impactVector.y);
+                currentDirection = currentDirection.normalized;
+            }
             timer = Random.Range(0, timeBetweenDirectionChange);
         }
     }
 
     private void Battle()
     {
+        if(!Enemy)
+        {
+            movetype = MOVEMENT_TYPE.IDLE;
+            return;
+        }
         rgb.velocity = Vector2.zero;
         if (tag == "Ally") {
             battleTimer -= Time.deltaTime;
@@ -91,12 +108,25 @@ public class Pawn : MonoBehaviour
                 Destroy(gameObject);
             else
             {
-                ChangeMoveType(MOVEMENTTYPE.BATTLE);
+                ChangeMoveType(MOVEMENT_TYPE.BATTLE);
                 Enemy = collision.gameObject;
                 battleTimer = battleMaxTime;
                 rgb.velocity = Vector2.zero;
             }
             return;
+        }
+        if(tag == "Ally" && collision.name == "Crown")
+        {
+            if (movetype == MOVEMENT_TYPE.CROWN_DIRECTION)
+            {
+                movetype = MOVEMENT_TYPE.CONTROLED;
+                collision.transform.parent = transform;
+            }
+            else
+            {
+                currentDirection = ((Vector2)(collision.transform.position - transform.position)).normalized;
+                movetype = MOVEMENT_TYPE.CROWN_DIRECTION;
+            }
         }
 
     }
@@ -106,30 +136,31 @@ public class Pawn : MonoBehaviour
         if (collision.gameObject == Enemy)
         {
             Enemy = null;
-            ChangeMoveType(MOVEMENTTYPE.IDLE);
+            ChangeMoveType(MOVEMENT_TYPE.IDLE);
         }
     }
 
-    public void ChangeMoveType(MOVEMENTTYPE type , Vector2 vector = default(Vector2))
+    public void ChangeMoveType(MOVEMENT_TYPE type , Vector2 vector = default(Vector2))
     {
         movetype = type;
         switch (type)
         {
-            case MOVEMENTTYPE.REGROUP:
+            case MOVEMENT_TYPE.REGROUP:
                 currentDirection = VectorUtils.Rotate((vector - (Vector2)transform.position).normalized,Random.Range(-maxAngleDirectionDirected,maxAngleDirectionDirected));
                 break;
-            case MOVEMENTTYPE.LISTEN:
+            case MOVEMENT_TYPE.LISTEN:
                 currentDirection = VectorUtils.Rotate(vector.normalized, Random.Range(-maxAngleDirectionDirected, maxAngleDirectionDirected));
                 break;
         }
     }
 
-    public enum MOVEMENTTYPE
+    public enum MOVEMENT_TYPE
     {
         IDLE,
         REGROUP,
         LISTEN,
         CONTROLED,
-        BATTLE
+        BATTLE,
+        CROWN_DIRECTION
     }
 }

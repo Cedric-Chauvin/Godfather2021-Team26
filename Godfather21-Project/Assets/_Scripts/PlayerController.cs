@@ -71,6 +71,7 @@ public class PlayerController : MonoBehaviour
                 crown.returnToKing = true;
                 crown.GetComponent<Collider2D>().enabled = true;
                 allyWithCrown.ChangeMoveType(Pawn.MOVEMENT_TYPE.IDLE);
+                allyWithCrown.isControlled = false;
                 allyWithCrown = null;
                 soldierHasCrown = false;
                 return;
@@ -155,7 +156,7 @@ public class PlayerController : MonoBehaviour
     public void MoveSoldier()
     {
         Vector2 moveDirection = new Vector2(player.GetAxis("Move Horizontal"), player.GetAxis("Move Vertical"));
-        allyWithCrown.transform.Translate(moveDirection * soldierSpeed * Time.deltaTime);
+        allyWithCrown.ControlledMove(moveDirection * soldierSpeed);
     }
 
     IEnumerator RallyTimer()

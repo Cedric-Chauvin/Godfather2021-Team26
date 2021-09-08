@@ -7,21 +7,28 @@ public class PlayerController : MonoBehaviour
 {
     private Rewired.Player player;
     [SerializeField] GameObject target;
-    [SerializeField] GameObject crown;
-    [SerializeField] private Vector3 throwDirection;
-    [SerializeField] List<Vector2> tempDirection;
-    bool kingHasCrown = true;
+    [SerializeField] Collider2D collider;
+    [SerializeField] GameObject crownPrefab;
+    CrownThrow crown;
+
+    GameObject allyWithCrown = null;
+    [SerializeField] float soldierSpeed = 2;
+
+    private Vector3 throwDirection;
+    Vector2 tempDirection;
+    public bool kingHasCrown = true;
     bool soldierHasCrown = false;
     private bool fire;
 
     void Awake()
     {
         player = Rewired.ReInput.players.GetPlayer(0);
-        tempDirection.Add(new Vector2());
-        tempDirection.Add(new Vector2());
-        tempDirection.Add(new Vector2());
-        tempDirection.Add(new Vector2());
-        tempDirection.Add(new Vector2());
+    }
+
+    private void Start()
+    {
+
+        collider = GetComponent<Collider2D>();
     }
 
     void Update()
@@ -30,11 +37,23 @@ public class PlayerController : MonoBehaviour
         {
             ThrowCrown();
         }
+        else if (soldierHasCrown)
+        {
+            if (player.GetButtonDown("Fire"))
+            {
+                crown.GetComponent<CrownThrow>().returnToKing = true;
+                crown.GetComponent<Collider2D>().enabled = true;
+                allyWithCrown.GetComponent<Pawn>().ChangeMoveType(Pawn.MOVEMENT_TYPE.IDLE);
+                allyWithCrown = null;
+                soldierHasCrown = false;
+                return;
+            }
+            MoveSoldier();
+        }
     }
 
     public void ThrowCrown()
     {
-        //kingHasCrown = false;
         throwDirection.x = player.GetAxis("Move Horizontal");
         throwDirection.y = player.GetAxis("Move Vertical");
         fire = player.GetButtonDown("Fire"); 
@@ -43,28 +62,37 @@ public class PlayerController : MonoBehaviour
         {
             target.SetActive(true);
             target.transform.position = transform.position + throwDirection.normalized * throwDirection.magnitude * -5;
+            /*
             for (int i = 0; i < 4; i++)
             {
                 tempDirection[i] = tempDirection[i + 1];
             }
-            tempDirection[4] = throwDirection.normalized * throwDirection.magnitude * -5;
+            */
+            tempDirection = throwDirection.normalized * throwDirection.magnitude * -5;
         }
-        else if (target.activeSelf)
+         if (fire)
         {
-            GameObject obj = Instantiate(crown, transform);
-            obj.GetComponent<CrownThrow>().targetPos = tempDirection[0];
-            Debug.Log(tempDirection[0]);
+            kingHasCrown = false;
+            crown = Instantiate(crownPrefab, transform).GetComponent<CrownThrow>();
+            crown.targetPos = tempDirection;
+            crown.allyPickedUpCrown.AddListener(AssignSoldier);
+            crown.kingPos = transform.position;
             target.SetActive(false);
         }
-        //StartCoroutine(WaitForCrown());
     }
 
-    IEnumerator WaitForCrown()
+
+    public void AssignSoldier(GameObject ally)
     {
-        yield return new WaitForSeconds(3);
-        if (!soldierHasCrown)
-        {
-            kingHasCrown = true;
-        }
+        allyWithCrown = ally;
+        Debug.Log("got ally :)");
+        allyWithCrown.GetComponent<Pawn>().ChangeMoveType(Pawn.MOVEMENT_TYPE.CONTROLED);
+        soldierHasCrown = true;
+    }
+
+    public void MoveSoldier()
+    {
+        Vector2 moveDirection = new Vector2(player.GetAxis("Move Horizontal"), player.GetAxis("Move Vertical"));
+        allyWithCrown.transform.Translate(moveDirection * soldierSpeed * Time.deltaTime);
     }
 }

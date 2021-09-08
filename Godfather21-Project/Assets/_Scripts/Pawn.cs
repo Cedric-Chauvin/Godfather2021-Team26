@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Pawn : MonoBehaviour
 {
@@ -26,11 +27,17 @@ public class Pawn : MonoBehaviour
     private Coroutine coroutine = null;
     [HideInInspector]
     public bool isControlled = false;
+    public UnityEvent<Pawn> PawnDeath;
 
     private void Start()
     {
         rgb = GetComponent<Rigidbody2D>();
 
+    }
+
+    private void OnDestroy()
+    {
+        PawnDeath.Invoke(this);
     }
 
     // Update is called once per frame

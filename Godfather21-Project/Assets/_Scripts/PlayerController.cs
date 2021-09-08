@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
     private bool fire;
     private bool canRally = true;
     private bool canOrder = true;
-    private Pawn[] teamPawns;
+    private List<Pawn> teamPawns = new List<Pawn>();
 
     void Awake()
     {
@@ -39,10 +39,11 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         GameObject[] temp = GameObject.FindGameObjectsWithTag(playerID == 0?"Ally":"Enemy");
-        teamPawns = new Pawn[temp.Length];
         for (int i = 0; i < temp.Length; i++)
         {
-            teamPawns[i] = temp[i].GetComponent<Pawn>();
+            Pawn p = temp[i].GetComponent<Pawn>();
+            teamPawns.Add(p);
+            p.PawnDeath.AddListener(RemovePawn);
         }
         collider = GetComponent<Collider2D>();
     }
@@ -86,7 +87,7 @@ public class PlayerController : MonoBehaviour
 
     private void Order(Vector2 direction)
     {
-        for (int i = 0; i < teamPawns.Length; i++)
+        for (int i = 0; i < teamPawns.Count; i++)
         {
             teamPawns[i].ChangeMoveType(Pawn.MOVEMENT_TYPE.LISTEN, direction, orderDuration);
         }
@@ -144,6 +145,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void RemovePawn(Pawn pawn)
+    {
+        teamPawns.Remove(pawn);
+    }
 
     public void AssignSoldier(GameObject ally)
     {

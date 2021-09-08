@@ -123,7 +123,11 @@ MonoBehaviour:
   maxAngleDirectionDirected: 20
   timeBetweenDirectionChange: 2
   battleMaxTime: 10
-  walkSpeed: 1.5
+  walkSpeed: 1
+  isControlled: 0
+  PawnDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!58 &44467912111275117
 CircleCollider2D:
   m_ObjectHideFlags: 0

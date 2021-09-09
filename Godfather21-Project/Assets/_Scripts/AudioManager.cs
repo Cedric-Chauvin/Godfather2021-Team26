@@ -37,11 +37,10 @@ public class AudioManager : MonoBehaviour
 
     public void UpdateVolume()
     {
-        Debug.Log(soundSlider.value);
         soundMixer.SetFloat("SoundVolume", soundSlider.value);
         musicMixer.SetFloat("MusicVolume", musicSlider.value);
-        PlayerPrefs.SetFloat("SoundVolume", musicSlider.value);
-        PlayerPrefs.SetFloat("MusicVolume", soundSlider.value);
+        PlayerPrefs.SetFloat("SoundVolume", soundSlider.value);
+        PlayerPrefs.SetFloat("MusicVolume", musicSlider.value);
         PlayerPrefs.Save();
     }
 }

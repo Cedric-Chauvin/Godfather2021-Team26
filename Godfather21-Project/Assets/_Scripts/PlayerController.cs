@@ -30,12 +30,14 @@ public class PlayerController : MonoBehaviour
     private bool canOrder = true;
     private List<Pawn> teamPawns = new List<Pawn>();
     private Transform mortIcone = null;
+    private FeedbackOrder feedbackOrder = null;
 
     void Awake()
     {
         player = Rewired.ReInput.players.GetPlayer(playerID);
         GetComponent<Animator>().Play("Idle", 0, Random.value);
         mortIcone = transform.GetChild(0);
+        feedbackOrder = GetComponentInChildren<FeedbackOrder>();
     }
 
     private void Start()
@@ -59,13 +61,13 @@ public class PlayerController : MonoBehaviour
             if (canOrder)
             {
                 if (player.GetButtonDown("OrderUp"))
-                    Order(battledirection);
-                else if (player.GetButtonDown("OrderDown"))
-                    Order(-battledirection);
-                else if (player.GetButtonDown("OrderRight"))
-                    Order(VectorUtils.Rotate(battledirection, -90));
-                else if (player.GetButtonDown("OrderLeft"))
                     Order(VectorUtils.Rotate(battledirection, 90));
+                else if (player.GetButtonDown("OrderDown"))  
+                    Order(VectorUtils.Rotate(battledirection, -90));
+                else if (player.GetButtonDown("OrderRight"))
+                    Order(battledirection);
+                else if (player.GetButtonDown("OrderLeft"))
+                    Order(-battledirection);
             }
         }
         else if (soldierHasCrown)
@@ -89,6 +91,7 @@ public class PlayerController : MonoBehaviour
 
     private void Order(Vector2 direction)
     {
+        feedbackOrder.Play(direction, battledirection.x, transform.position.x);
         for (int i = 0; i < teamPawns.Count; i++)
         {
             teamPawns[i].ChangeMoveType(Pawn.MOVEMENT_TYPE.LISTEN, direction, orderDuration);

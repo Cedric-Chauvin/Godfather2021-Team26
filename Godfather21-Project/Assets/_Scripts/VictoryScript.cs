@@ -11,6 +11,7 @@ public class VictoryScript : MonoBehaviour
     [SerializeField] GameObject blueVictoryScreen;
     [SerializeField] GameObject redVictoryScreen;
     [SerializeField] GameObject victoryScreen;
+    [SerializeField] Text victoryText;
 
     void Start()
     {
@@ -34,8 +35,9 @@ public class VictoryScript : MonoBehaviour
         GameObject[] crowns = GameObject.FindGameObjectsWithTag("Crown");
         foreach (GameObject crown in crowns)
         {
-            crown.GetComponent<CrownThrow>().EnemyHasCrown.AddListener(VictoryScreen);
-            crown.GetComponentInParent<PlayerController>().Defeat.AddListener(VictoryScreen);
+            crown.GetComponent<CrownThrow>().EnemyHasCrown.AddListener(EnemyTookCrown);
+            crown.GetComponentInParent<PlayerController>().AllyWithCrownDied.AddListener(AllyWithCrownDied);
+            crown.GetComponentInParent<PlayerController>().KingDied.AddListener(KingDied);
         }
     }
 
@@ -47,6 +49,7 @@ public class VictoryScript : MonoBehaviour
             blueAlliesNum--;
             if(blueAlliesNum == 0)
             {
+                victoryText.text = "Red defeated Blue's army!";
                 Debug.Log("red victory");
                 VictoryScreen(1);
             }
@@ -56,6 +59,7 @@ public class VictoryScript : MonoBehaviour
             redAlliesNum--;
             if(redAlliesNum == 0)
             {
+                victoryText.text = "Blue defeated Red's army!";
                 Debug.Log("blue victory");
                 VictoryScreen(0);
             }
@@ -69,6 +73,32 @@ public class VictoryScript : MonoBehaviour
         numberBlueRed.value = blueAlliesNum;
     }
 
+    public void EnemyTookCrown(int i)
+    {
+        if (i == 0)
+            victoryText.text = "Blue took Red's crown";
+        else
+            victoryText.text = "Red took Blue's crown";
+        VictoryScreen(i);
+    }
+    
+    public void AllyWithCrownDied(int i)
+    {
+        if (i == 0)
+            victoryText.text = "Red's crown was lost in battle";
+        else
+            victoryText.text = "Blue's crown was lost in battle";
+        VictoryScreen(i);
+    }
+    
+    public void KingDied(int i)
+    {
+        if (i == 0)
+            victoryText.text = "Red King was killed";
+        else
+            victoryText.text = "Blue King was killed";
+        VictoryScreen(i);
+    }
 
     public void VictoryScreen(int i)
     {

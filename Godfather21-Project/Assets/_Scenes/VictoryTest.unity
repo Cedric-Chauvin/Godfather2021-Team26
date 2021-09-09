@@ -640,6 +640,7 @@ GameObject:
   - component: {fileID: 637297436}
   - component: {fileID: 637297435}
   - component: {fileID: 637297437}
+  - component: {fileID: 637297438}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -685,6 +686,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0fb855bd2937964caed5022b0495072, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &637297438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 637297434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce99c29754bc1db429b67a6029428bea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundMixer: {fileID: 24100000, guid: d17b4312c0cf824499dda983916dda97, type: 2}
+  musicMixer: {fileID: 24100000, guid: 64ab1c048eb87b248a420e8c66dd19e2, type: 2}
+  musicSlider: {fileID: 0}
+  soundSlider: {fileID: 0}
 --- !u!4 &646728599 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 44467912111275113, guid: a7b02aa77e6e18748bb193f110a12afa, type: 3}
@@ -2152,6 +2169,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2736705530020577297, guid: 4ece94c3655362d49b7487a891b78484, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 126fd477318ae9a4596627b9d0c1eca3, type: 3}
     - target: {fileID: 2736705530023310340, guid: 4ece94c3655362d49b7487a891b78484, type: 3}
       propertyPath: m_FlipX
       value: 1
@@ -2736,6 +2757,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2736705530020577297, guid: 4ece94c3655362d49b7487a891b78484, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 74d525a666ee96f498c1a385629f9bde, type: 3}
     - target: {fileID: 2736705530023310338, guid: 4ece94c3655362d49b7487a891b78484, type: 3}
       propertyPath: m_Constraints
       value: 7

@@ -21,7 +21,7 @@ public class MenuManager : MonoBehaviour
     }
     private void Update()
     {
-        if (!cursorMoving && player0.GetAxis("Move Vertical") <= -0.2 || player1.GetAxis("Move Vertical") <= -0.2)
+        if (!cursorMoving && player0.GetAxis("MovePawnVertical") <= -0.2 || player1.GetAxis("MovePawnVertical") <= -0.2)
         {
             cursorMoving = true;
             currentPosition++;
@@ -33,7 +33,7 @@ public class MenuManager : MonoBehaviour
                 currentPosition = buttons.Count - 1;
             }
             UpdateButtons();
-        }else if(!cursorMoving && player0.GetAxis("Move Vertical") >= 0.2 || player1.GetAxis("Move Vertical") >= 0.2)
+        }else if(!cursorMoving && player0.GetAxis("MovePawnVertical") >= 0.2 || player1.GetAxis("MovePawnVertical") >= 0.2)
         {
             cursorMoving = true;
             currentPosition--;
@@ -48,7 +48,7 @@ public class MenuManager : MonoBehaviour
             UpdateButtons();
         }
 
-        if (player0.GetButtonDown("Fire"))
+        if (player0.GetButtonDown("Select"))
         {
             SelectedButtonPressed();
         }

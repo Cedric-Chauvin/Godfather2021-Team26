@@ -120,7 +120,9 @@ public class PlayerController : MonoBehaviour
         int nbCollider = Physics2D.OverlapCircle(allyWithCrown.transform.position, rallingRadius, contactFilter, result);
         for (int i = 0; i < nbCollider; i++)
         {
-            result[i].GetComponent<Pawn>().ChangeMoveType(Pawn.MOVEMENT_TYPE.REGROUP, allyWithCrown.transform.position, rallingDuration);
+            Pawn p = result[i].GetComponent<Pawn>();
+            if(p)
+                p.Rallying(allyWithCrown.transform, rallingDuration);
         }
         StartCoroutine(RallyTimer());
     }

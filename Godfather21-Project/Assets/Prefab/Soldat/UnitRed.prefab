@@ -67,14 +67,30 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 367053920066439143, guid: a7b02aa77e6e18748bb193f110a12afa, type: 3}
+      propertyPath: m_Name
+      value: Cry Red
+      objectReference: {fileID: 0}
     - target: {fileID: 461000469178723361, guid: a7b02aa77e6e18748bb193f110a12afa, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: cea5004ce32dd0247826bbf44d39ed46, type: 3}
+    - target: {fileID: 1718110748593449762, guid: a7b02aa77e6e18748bb193f110a12afa, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 35e115d0761016440a447b085aca7d41, type: 2}
     - target: {fileID: 6010654005432715068, guid: a7b02aa77e6e18748bb193f110a12afa, type: 3}
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: a9855e39e73ebd44d841330032013f7b, type: 2}
+    - target: {fileID: 7714828967984655172, guid: a7b02aa77e6e18748bb193f110a12afa, type: 3}
+      propertyPath: m_Name
+      value: Cry Red
+      objectReference: {fileID: 0}
+    - target: {fileID: 7714828967984655172, guid: a7b02aa77e6e18748bb193f110a12afa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8193573107191916948, guid: a7b02aa77e6e18748bb193f110a12afa, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.058
@@ -87,5 +103,9 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8781853338583336833, guid: a7b02aa77e6e18748bb193f110a12afa, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 35e115d0761016440a447b085aca7d41, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7b02aa77e6e18748bb193f110a12afa, type: 3}

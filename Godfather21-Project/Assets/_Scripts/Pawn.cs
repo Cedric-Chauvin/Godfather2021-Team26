@@ -29,7 +29,10 @@ public class Pawn : MonoBehaviour
     public bool isControlled = false;
     public UnityEvent<Pawn> PawnDeath;
     private GameObject mortIcone = null;
-    private Transform CombatIcone = null;
+    private Transform combatIcone = null;
+    private Transform regroupTransform = null;
+    private SpriteRenderer rallyFeedback = null;
+    private Animator rallyFeedbackAnim = null;
 
     AudioSource audio;
     [SerializeField] List<AudioClip> audioClips;
@@ -39,8 +42,10 @@ public class Pawn : MonoBehaviour
         rgb = GetComponent<Rigidbody2D>();
         GetComponentInChildren<Animator>().Play("Move",0,Random.value);
         mortIcone = transform.GetChild(1).gameObject;
-        CombatIcone = transform.GetChild(2);
         audio = GetComponent<AudioSource>();
+        combatIcone = transform.GetChild(2);
+        rallyFeedback = transform.GetChild(3).GetComponent<SpriteRenderer>();
+        rallyFeedbackAnim = rallyFeedback.GetComponent<Animator>();
     }
 
     private void OnDestroy()
@@ -79,6 +84,14 @@ public class Pawn : MonoBehaviour
                 Idle();
                 break;
             case MOVEMENT_TYPE.REGROUP:
+                if(!regroupTransform)
+                {
+                    movetype = MOVEMENT_TYPE.IDLE;
+                    return;
+                }
+                currentDirection = VectorUtils.Rotate(((Vector2)regroupTransform.position - (Vector2)transform.position).normalized, Random.Range(-maxAngleDirectionDirected, maxAngleDirectionDirected));
+                rgb.velocity = currentDirection * walkSpeed;
+                break;
             case MOVEMENT_TYPE.LISTEN:
                 rgb.velocity = currentDirection * walkSpeed;
                 break;
@@ -122,9 +135,9 @@ public class Pawn : MonoBehaviour
         if(!Enemy)
         {
             movetype = isControlled ? MOVEMENT_TYPE.CONTROLED : MOVEMENT_TYPE.IDLE;
-            CombatIcone.gameObject.SetActive(false);
             audio.clip = audioClips[0];
             audio.Play();
+            combatIcone.gameObject.SetActive(false);
             return;
         }
         rgb.velocity = Vector2.zero;
@@ -132,7 +145,7 @@ public class Pawn : MonoBehaviour
             battleTimer -= Time.deltaTime;
             if (battleTimer < 0)
             {
-                CombatIcone.gameObject.SetActive(false);
+                combatIcone.gameObject.SetActive(false);
                 if (Random.value < 0.5)
                     PreDestroy();
                 else
@@ -155,8 +168,8 @@ public class Pawn : MonoBehaviour
                 rgb.velocity = Vector2.zero;
                 if(tag == "Ally")
                 {
-                    CombatIcone.position = (transform.position + Enemy.transform.position) / 2;
-                    CombatIcone.gameObject.SetActive(true);
+                    combatIcone.position = (transform.position + Enemy.transform.position) / 2;
+                    combatIcone.gameObject.SetActive(true);
                 }
             }
             return;
@@ -169,7 +182,7 @@ public class Pawn : MonoBehaviour
         {
             Enemy = null;
             movetype = isControlled ? MOVEMENT_TYPE.CONTROLED : MOVEMENT_TYPE.IDLE;
-            CombatIcone.gameObject.SetActive(false);
+            combatIcone.gameObject.SetActive(false);
         }
     }
 
@@ -182,14 +195,6 @@ public class Pawn : MonoBehaviour
         movetype = type;
         switch (type)
         {
-            case MOVEMENT_TYPE.REGROUP:
-                currentDirection = VectorUtils.Rotate((vector - (Vector2)transform.position).normalized,Random.Range(-maxAngleDirectionDirected,maxAngleDirectionDirected));
-                if (coroutine != null)
-                    StopCoroutine(coroutine);
-                coroutine = StartCoroutine(ResetMoveType(duration));
-                audio.clip = audioClips[2];
-                audio.Play();
-                break;
             case MOVEMENT_TYPE.LISTEN:
                 currentDirection = VectorUtils.Rotate(vector.normalized, Random.Range(-maxAngleDirectionDirected, maxAngleDirectionDirected));
                 if (coroutine != null)
@@ -204,6 +209,31 @@ public class Pawn : MonoBehaviour
         }
     }
 
+    public void Rallying(Transform pawnTransform,float duration) 
+    {
+        if (movetype == MOVEMENT_TYPE.BATTLE )
+            return;
+        if(movetype == MOVEMENT_TYPE.CONTROLED)
+        {
+            DoRalying(duration);
+            return;
+        }
+        movetype = MOVEMENT_TYPE.REGROUP;
+        regroupTransform = pawnTransform;;
+        if (coroutine != null)
+            StopCoroutine(coroutine);
+        coroutine = StartCoroutine(ResetMoveType(duration));
+    }
+    public void DoRalying(float duration)
+    {
+        rallyFeedbackAnim.Play("Cry",0,0);
+        rallyFeedback.color = new Color(1,1,1,0.5f);
+        audio.clip = audioClips[2];
+        audio.Play();
+        timer = duration;
+        StartCoroutine(RallyFade(duration));
+    }
+
     public void ControlledMove(Vector2 direction)
     {
         if(!(movetype == MOVEMENT_TYPE.BATTLE))
@@ -215,6 +245,21 @@ public class Pawn : MonoBehaviour
         yield return new WaitForSeconds(time);
 
         movetype = MOVEMENT_TYPE.IDLE;
+        regroupTransform = null;
+    }
+
+    private IEnumerator RallyFade(float duration)
+    {
+        while (timer > 0)
+        {
+            yield return new WaitForEndOfFrame();
+            timer -= Time.deltaTime;
+            if (timer < 0.5)
+            {
+                rallyFeedback.color = new Color(1, 1, 1, timer);
+            }
+        }
+        rallyFeedback.color = new Color(1, 1, 1, timer);
     }
 
     public enum MOVEMENT_TYPE

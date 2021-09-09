@@ -233,7 +233,7 @@ MonoBehaviour:
   collider: {fileID: 2736705530023310339}
   crown: {fileID: 2458168016647758802}
   soldierSpeed: 3
-  rallingRadius: 3
+  rallingRadius: 2
   rallingDuration: 3
   rallingCooldown: 4
   battledirection: {x: 0, y: 0}

@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: RoiBlue
+  m_Name: RoiRedCrowned
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,13 +20,13 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 21300000, guid: f7e31f502ed298f4a88578a20ce033e6, type: 3}
+      value: {fileID: 21300000, guid: 19bc1e1077751764d8d1bfc7197e8683, type: 3}
     - time: 0.16666667
-      value: {fileID: 21300000, guid: 8782fc2fe92d3364d8b07c6f1e9f61b6, type: 3}
+      value: {fileID: 21300000, guid: 01fde1fe31071894ea7f48a3008bc2e8, type: 3}
     - time: 0.33333334
-      value: {fileID: 21300000, guid: 3598555baaaedff4db0f1936172f5a19, type: 3}
+      value: {fileID: 21300000, guid: c06963bdaf7eca54f916c74ceee09191, type: 3}
     - time: 0.5
-      value: {fileID: 21300000, guid: f7e31f502ed298f4a88578a20ce033e6, type: 3}
+      value: {fileID: 21300000, guid: 19bc1e1077751764d8d1bfc7197e8683, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -46,10 +46,10 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 21300000, guid: f7e31f502ed298f4a88578a20ce033e6, type: 3}
-    - {fileID: 21300000, guid: 8782fc2fe92d3364d8b07c6f1e9f61b6, type: 3}
-    - {fileID: 21300000, guid: 3598555baaaedff4db0f1936172f5a19, type: 3}
-    - {fileID: 21300000, guid: f7e31f502ed298f4a88578a20ce033e6, type: 3}
+    - {fileID: 21300000, guid: 19bc1e1077751764d8d1bfc7197e8683, type: 3}
+    - {fileID: 21300000, guid: 01fde1fe31071894ea7f48a3008bc2e8, type: 3}
+    - {fileID: 21300000, guid: c06963bdaf7eca54f916c74ceee09191, type: 3}
+    - {fileID: 21300000, guid: 19bc1e1077751764d8d1bfc7197e8683, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}

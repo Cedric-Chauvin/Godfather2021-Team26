@@ -127,7 +127,7 @@ public class CrownThrow : MonoBehaviour
         }
         else if(!collision.isTrigger && collision.gameObject.CompareTag(enemyTag) && !returnToKing && hasReachedTarget)
         {
-            int i = enemyTag == "Ally" ? 1 : 0;
+            int i = enemyTag == "Ally" ? 0 : 1;
             EnemyHasCrown.Invoke(i);
         }
     }

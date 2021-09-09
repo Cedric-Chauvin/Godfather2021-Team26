@@ -34,7 +34,9 @@ public class CrownThrow : MonoBehaviour
     private void Start()
     {
         crownAnim = GetComponent<Animator>();
+        
         enemyTag = unitTag == "Ally"? "Enemy" : "Ally" ;
+        crownAnim.SetFloat("PlayerID", unitTag == "Ally" ? 0f : 1f);
     }
 
     private void Update()

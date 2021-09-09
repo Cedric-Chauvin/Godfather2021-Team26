@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
 
     public UnityEvent<int> Defeat;
 
+    
     //SFX
     AudioSource audio;
     bool soundIsPlaying;
@@ -66,37 +67,40 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (kingHasCrown)
+        if (!GameManager.Instance.gamePaused)
         {
-            ThrowCrown();
-            if (canOrder)
+            if (kingHasCrown)
             {
-                if (player.GetButtonDown("OrderUp"))
-                    Order(Vector2.up);
-                else if (player.GetButtonDown("OrderDown"))  
-                    Order(Vector2.down);
-                else if (player.GetButtonDown("OrderRight"))
-                    Order(Vector2.right);
-                else if (player.GetButtonDown("OrderLeft"))
-                    Order(Vector2.left);
+                ThrowCrown();
+                if (canOrder)
+                {
+                    if (player.GetButtonDown("OrderUp"))
+                        Order(Vector2.up);
+                    else if (player.GetButtonDown("OrderDown"))
+                        Order(Vector2.down);
+                    else if (player.GetButtonDown("OrderRight"))
+                        Order(Vector2.right);
+                    else if (player.GetButtonDown("OrderLeft"))
+                        Order(Vector2.left);
+                }
             }
-        }
-        else if (soldierHasCrown)
-        {
-            if (player.GetButtonDown("Fire"))
+            else if (soldierHasCrown)
             {
-                crown.ReturnCrown();
-                allyWithCrown.ChangeMoveType(Pawn.MOVEMENT_TYPE.IDLE);
-                allyWithCrown.isControlled = false;
-                allyWithCrown = null;
-                soldierHasCrown = false;
-                return;
+                if (player.GetButtonDown("Fire"))
+                {
+                    crown.ReturnCrown();
+                    allyWithCrown.ChangeMoveType(Pawn.MOVEMENT_TYPE.IDLE);
+                    allyWithCrown.isControlled = false;
+                    allyWithCrown = null;
+                    soldierHasCrown = false;
+                    return;
+                }
+                if (player.GetButtonDown("Rallying") && canRally)
+                {
+                    Ralling();
+                }
+                MoveSoldier();
             }
-            if(player.GetButtonDown("Rallying") && canRally)
-            {
-                Ralling();
-            }
-            MoveSoldier();
         }
     }
 

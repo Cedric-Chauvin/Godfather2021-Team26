@@ -72,13 +72,13 @@ public class PlayerController : MonoBehaviour
             if (canOrder)
             {
                 if (player.GetButtonDown("OrderUp"))
-                    Order(VectorUtils.Rotate(battledirection, 90));
+                    Order(Vector2.up);
                 else if (player.GetButtonDown("OrderDown"))  
-                    Order(VectorUtils.Rotate(battledirection, -90));
+                    Order(Vector2.down);
                 else if (player.GetButtonDown("OrderRight"))
-                    Order(battledirection);
+                    Order(Vector2.right);
                 else if (player.GetButtonDown("OrderLeft"))
-                    Order(-battledirection);
+                    Order(Vector2.left);
             }
         }
         else if (soldierHasCrown)

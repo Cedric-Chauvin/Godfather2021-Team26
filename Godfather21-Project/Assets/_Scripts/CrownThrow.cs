@@ -93,7 +93,7 @@ public class CrownThrow : MonoBehaviour
 
     private void CheckCollisions(Collider2D collision)
     {
-        if (!collision.isTrigger && collision.gameObject.CompareTag(unitTag) && !returnToKing && hasReachedTarget)
+        if (!collision.isTrigger && collision.gameObject.CompareTag(unitTag) && !returnToKing && hasReachedTarget && !stayWithSoldier)
         {
             StopAllCoroutines();
             crownAnim.SetTrigger("PickedUp");

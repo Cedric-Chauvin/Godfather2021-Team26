@@ -72,7 +72,7 @@ public class FeedbackOrder : MonoBehaviour
         {
             item.transform.rotation = Quaternion.Euler(Vector3.forward * rotation);
             Vector2 pos = Vector2.zero;
-            pos.x = Random.Range(kingX, kingX + xOffset);
+            pos.x = Random.Range(kingX, kingX + xOffset*battleDirection);
             pos.y = Random.Range(-terainY, terainY);
             item.transform.position = pos;
             item.color = Color.white;

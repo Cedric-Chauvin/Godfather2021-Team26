@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     private List<Pawn> teamPawns = new List<Pawn>();
     private Transform mortIcone = null;
     private FeedbackOrder feedbackOrder = null;
+    private Animator animator = null;
 
     public UnityEvent<int> Defeat;
 
@@ -48,6 +49,7 @@ public class PlayerController : MonoBehaviour
         mortIcone = transform.GetChild(0);
         crown.unitTag = playerID == 0 ? "Ally" : "Enemy";
         feedbackOrder = GetComponentInChildren<FeedbackOrder>();
+        animator = GetComponent<Animator>();
     }
 
     private void Start()
@@ -157,6 +159,7 @@ public class PlayerController : MonoBehaviour
         {
             kingHasCrown = false;
             CapacityUI.UI.CrownToggle(playerID, false);
+            animator.SetBool("Crowned", false);
             crown.targetPos = tempDirection;
             crown.kingPos = transform.position;
             crown.ThrowCrown();
@@ -190,6 +193,7 @@ public class PlayerController : MonoBehaviour
 
     public void CrownToggle(bool b)
     {
+        animator.SetBool("Crowned", b);
         kingHasCrown = b;
         CapacityUI.UI.CrownToggle(playerID, b);
     }

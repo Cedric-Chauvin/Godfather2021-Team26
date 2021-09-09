@@ -2237,6 +2237,10 @@ PrefabInstance:
       propertyPath: battledirection.x
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5593946630089236340, guid: 4ece94c3655362d49b7487a891b78484, type: 3}
+      propertyPath: prefabUp
+      value: 
+      objectReference: {fileID: 4611005938175384862, guid: 25314d1e8617bd549866e194a04522be, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ece94c3655362d49b7487a891b78484, type: 3}
 --- !u!1001 &1341953200

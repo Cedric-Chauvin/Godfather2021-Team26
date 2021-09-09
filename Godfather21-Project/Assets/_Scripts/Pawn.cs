@@ -50,11 +50,11 @@ public class Pawn : MonoBehaviour
 
     private void OnDestroy()
     {
-        PawnDeath.Invoke(this);
     }
 
     public void PreDestroy()
     {
+        PawnDeath.Invoke(this);
         audio.clip = audioClips[1];
         audio.Play();
         mortIcone.SetActive(true);
@@ -242,7 +242,7 @@ public class Pawn : MonoBehaviour
 
     public void ControlledMove(Vector2 direction)
     {
-        if(!(movetype == MOVEMENT_TYPE.BATTLE))
+        if(!(movetype == MOVEMENT_TYPE.BATTLE) && rgb)
             rgb.velocity = direction;
     }
 

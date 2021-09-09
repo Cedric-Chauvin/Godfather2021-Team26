@@ -35,7 +35,8 @@ public class PlayerController : MonoBehaviour
     private FeedbackOrder feedbackOrder = null;
     private Animator animator = null;
 
-    public UnityEvent<int> Defeat;
+    public UnityEvent<int> KingDied;
+    public UnityEvent<int> AllyWithCrownDied;
 
     
     //SFX
@@ -178,7 +179,7 @@ public class PlayerController : MonoBehaviour
         teamPawns.Remove(pawn);
         if (allyWithCrown == pawn) {
             int i = playerID == 0 ? 1 : 0;
-            Defeat.Invoke(i) ;//defeat
+            AllyWithCrownDied.Invoke(i) ;//defeat
         }
     }
 
@@ -227,7 +228,7 @@ public class PlayerController : MonoBehaviour
             int i = playerID == 0 ? 1 : 0;
             audio.clip = audioClips[2];
             audio.Play();
-            Defeat.Invoke(i);
+            KingDied.Invoke(i);
         }
     }
 }

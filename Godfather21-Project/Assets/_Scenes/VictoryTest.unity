@@ -6460,6 +6460,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 6653252561842052736, guid: a34060fa7dd3971449526172afeb7613, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6653252561864976979, guid: a34060fa7dd3971449526172afeb7613, type: 3}
       propertyPath: m_Name
       value: VictoryManager

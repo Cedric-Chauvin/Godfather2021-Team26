@@ -29,10 +29,15 @@ public class CrownThrow : MonoBehaviour
 
     public UnityEvent<int> EnemyHasCrown;
 
+    //SFX
+    AudioSource audio;
+    [SerializeField] List<AudioClip> audioClips;
+
     private void Start()
     {
         crownAnim = GetComponent<Animator>();
         enemyTag = unitTag == "Ally"? "Enemy" : "Ally" ;
+        audio = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -54,6 +59,8 @@ public class CrownThrow : MonoBehaviour
                 hasReachedTarget = true;
                 acc = 0;
                 crownAnim.SetTrigger("OnGround");
+                audio.clip = audioClips[0];
+                audio.Play();
             }
             else
             {
@@ -87,6 +94,8 @@ public class CrownThrow : MonoBehaviour
             transform.SetParent(collision.transform); // picked up by soldier
             transform.localPosition = new Vector2(0, 0);
             collider.enabled = false;
+            audio.clip = audioClips[1];
+            audio.Play();
         }
         else if (collision.gameObject.CompareTag("Player") && hasReachedTarget)
         {
@@ -99,11 +108,15 @@ public class CrownThrow : MonoBehaviour
             acc = 0;
             transform.SetParent(collision.transform);
             transform.localPosition = new Vector2(0, 0) + kingHeadOffset;
+            audio.clip = audioClips[2];
+            audio.Play();
         }
         else if (collision.gameObject.CompareTag("Wall"))
         {
             hasReachedTarget = true;
             crownAnim.SetTrigger("OnGround");
+            audio.clip = audioClips[0];
+            audio.Play();
         }
         else if(!collision.isTrigger && collision.gameObject.CompareTag(enemyTag) && !returnToKing && hasReachedTarget)
         {

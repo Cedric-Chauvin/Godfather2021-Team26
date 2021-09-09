@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject target;
     [SerializeField] Collider2D collider;
     [SerializeField] CrownThrow crown;
+    
 
     Pawn allyWithCrown = null;
     [SerializeField] float soldierSpeed = 2;
@@ -35,6 +36,11 @@ public class PlayerController : MonoBehaviour
 
     public UnityEvent<int> Defeat;
 
+    //SFX
+    AudioSource audio;
+    bool soundIsPlaying;
+    [SerializeField] List<AudioClip> audioClips;
+
     void Awake()
     {
         player = Rewired.ReInput.players.GetPlayer(playerID);
@@ -55,6 +61,7 @@ public class PlayerController : MonoBehaviour
         }
         collider = GetComponent<Collider2D>();
         crown.allyPickedUpCrown.AddListener(AssignSoldier);
+        audio = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -99,6 +106,8 @@ public class PlayerController : MonoBehaviour
         for (int i = 0; i < teamPawns.Count; i++)
         {
             teamPawns[i].ChangeMoveType(Pawn.MOVEMENT_TYPE.LISTEN, direction, orderDuration);
+            audio.clip = audioClips[3];
+            audio.Play();
         }
         StartCoroutine(OrderTimer());
     }
@@ -128,11 +137,18 @@ public class PlayerController : MonoBehaviour
             target.transform.position = transform.position + throwDirection.normalized * throwDirection.magnitude * -maxRange;
             tempDirection = throwDirection.normalized * throwDirection.magnitude * -maxRange;
             crown.transform.position = transform.position + throwDirection.normalized;
+            if (!soundIsPlaying)
+            {
+                soundIsPlaying = true;
+                audio.clip = audioClips[0];
+                audio.Play();
+            }
         }
         else
         {
             crown.transform.position = crown.kingHeadOffset + (Vector2)transform.position;
             target.SetActive(false);
+            soundIsPlaying = false;
         }
 
         if (fire)
@@ -142,6 +158,8 @@ public class PlayerController : MonoBehaviour
             crown.kingPos = transform.position;
             crown.ThrowCrown();
             target.SetActive(false);
+            audio.clip = audioClips[1];
+            audio.Play();
         }
     }
 
@@ -187,6 +205,8 @@ public class PlayerController : MonoBehaviour
         string enemyTag = playerID == 0 ? "Enemy" : "Ally";
         if (collision.gameObject.CompareTag(enemyTag)){
             int i = playerID == 0 ? 1 : 0;
+            audio.clip = audioClips[2];
+            audio.Play();
             Defeat.Invoke(i);
         }
     }

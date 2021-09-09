@@ -31,12 +31,16 @@ public class Pawn : MonoBehaviour
     private GameObject mortIcone = null;
     private Transform CombatIcone = null;
 
+    AudioSource audio;
+    [SerializeField] List<AudioClip> audioClips;
+
     private void Start()
     {
         rgb = GetComponent<Rigidbody2D>();
         GetComponentInChildren<Animator>().Play("Move",0,Random.value);
         mortIcone = transform.GetChild(1).gameObject;
         CombatIcone = transform.GetChild(2);
+        audio = GetComponent<AudioSource>();
     }
 
     private void OnDestroy()
@@ -46,6 +50,8 @@ public class Pawn : MonoBehaviour
 
     public void PreDestroy()
     {
+        audio.clip = audioClips[1];
+        audio.Play();
         mortIcone.SetActive(true);
         mortIcone.transform.parent = null;
         mortIcone.GetComponent<Animator>().enabled = true;
@@ -117,6 +123,8 @@ public class Pawn : MonoBehaviour
         {
             movetype = isControlled ? MOVEMENT_TYPE.CONTROLED : MOVEMENT_TYPE.IDLE;
             CombatIcone.gameObject.SetActive(false);
+            audio.clip = audioClips[0];
+            audio.Play();
             return;
         }
         rgb.velocity = Vector2.zero;
@@ -179,6 +187,8 @@ public class Pawn : MonoBehaviour
                 if (coroutine != null)
                     StopCoroutine(coroutine);
                 coroutine = StartCoroutine(ResetMoveType(duration));
+                audio.clip = audioClips[2];
+                audio.Play();
                 break;
             case MOVEMENT_TYPE.LISTEN:
                 currentDirection = VectorUtils.Rotate(vector.normalized, Random.Range(-maxAngleDirectionDirected, maxAngleDirectionDirected));

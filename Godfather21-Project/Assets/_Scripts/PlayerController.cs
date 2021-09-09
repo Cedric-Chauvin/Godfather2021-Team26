@@ -166,7 +166,8 @@ public class PlayerController : MonoBehaviour
         {
             player.SetVibration(0, 0);
             kingHasCrown = false;
-            CapacityUI.UI.CrownToggle(playerID, false);
+            if(CapacityUI.UI)
+                CapacityUI.UI.CrownToggle(playerID, false);
             animator.SetBool("Crowned", false);
             crown.targetPos = tempDirection;
             crown.kingPos = transform.position;
@@ -203,7 +204,8 @@ public class PlayerController : MonoBehaviour
     {
         animator.SetBool("Crowned", b);
         kingHasCrown = b;
-        CapacityUI.UI.CrownToggle(playerID, b);
+        if(CapacityUI.UI)
+            CapacityUI.UI.CrownToggle(playerID, b);
     }
 
     IEnumerator RallyTimer()

@@ -2,6 +2,7 @@ using Rewired;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
@@ -31,11 +32,14 @@ public class PlayerController : MonoBehaviour
     private List<Pawn> teamPawns = new List<Pawn>();
     private Transform mortIcone = null;
 
+    public UnityEvent<int> Defeat;
+
     void Awake()
     {
         player = Rewired.ReInput.players.GetPlayer(playerID);
         GetComponent<Animator>().Play("Idle", 0, Random.value);
         mortIcone = transform.GetChild(0);
+        crown.unitTag = playerID == 0 ? "Ally" : "Enemy";
     }
 
     private void Start()
@@ -134,15 +138,6 @@ public class PlayerController : MonoBehaviour
             crown.targetPos = tempDirection;
             crown.kingPos = transform.position;
             crown.ThrowCrown();
-
-            if (playerID == 0)
-            {
-                crown.unitTag = "Ally";
-            }
-            else
-            {
-                crown.unitTag = "Enemy";
-            }
             target.SetActive(false);
         }
     }
@@ -150,8 +145,10 @@ public class PlayerController : MonoBehaviour
     private void RemovePawn(Pawn pawn)
     {
         teamPawns.Remove(pawn);
-        if (allyWithCrown == pawn)
-            ;//defeat
+        if (allyWithCrown == pawn) {
+            int i = playerID == 0 ? 1 : 0;
+            Defeat.Invoke(i) ;//defeat
+        }
     }
 
     public void AssignSoldier(GameObject ally)
@@ -180,5 +177,14 @@ public class PlayerController : MonoBehaviour
         canOrder = false;
         yield return new WaitForSeconds(orderCooldown);
         canOrder = true;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        string enemyTag = playerID == 0 ? "Enemy" : "Ally";
+        if (collision.gameObject.CompareTag(enemyTag)){
+            int i = playerID == 0 ? 1 : 0;
+            Defeat.Invoke(i);
+        }
     }
 }

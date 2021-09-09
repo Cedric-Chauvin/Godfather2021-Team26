@@ -194,6 +194,9 @@ MonoBehaviour:
   orderDuration: 3
   orderCooldown: 4
   kingHasCrown: 1
+  PawnDied:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!58 &2736705530023310339
 CircleCollider2D:
   m_ObjectHideFlags: 0

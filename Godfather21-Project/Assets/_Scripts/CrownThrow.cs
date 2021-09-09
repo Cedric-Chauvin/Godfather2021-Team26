@@ -25,10 +25,14 @@ public class CrownThrow : MonoBehaviour
     [SerializeField] Collider2D collider;
 
     public string unitTag;
+    private string enemyTag;
+
+    public UnityEvent<int> EnemyHasCrown;
 
     private void Start()
     {
         crownAnim = GetComponent<Animator>();
+        enemyTag = unitTag == "Ally"? "Enemy" : "Ally" ;
     }
 
     private void Update()
@@ -100,6 +104,11 @@ public class CrownThrow : MonoBehaviour
         {
             hasReachedTarget = true;
             crownAnim.SetTrigger("OnGround");
+        }
+        else if(!collision.isTrigger && collision.gameObject.CompareTag(enemyTag) && !returnToKing && hasReachedTarget)
+        {
+            int i = enemyTag == "Ally" ? 1 : 0;
+            EnemyHasCrown.Invoke(i);
         }
     }
 

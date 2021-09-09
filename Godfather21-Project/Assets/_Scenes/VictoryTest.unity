@@ -2214,7 +2214,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2736705530023310343, guid: 4ece94c3655362d49b7487a891b78484, type: 3}
       propertyPath: battledirection.x
-      value: -1
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ece94c3655362d49b7487a891b78484, type: 3}

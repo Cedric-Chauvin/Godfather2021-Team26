@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/_Scenes/BattleTest.unity
     guid: 50d85d37cadbe454cb2b1c538df7e755
   - enabled: 1
+    path: Assets/_Scenes/MainMenu.unity
+    guid: 531f9a377c925de408782780bf0c4ebf
+  - enabled: 1
     path: Assets/_Scenes/VictoryTest.unity
     guid: 97bcc3d5b5d0f864392d791c0e78d1e6
   m_configObjects: {}

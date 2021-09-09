@@ -13,8 +13,9 @@ public class GameManager : MonoBehaviour
 
     public void LoadScene(string sceneName)
     {
-        Time.timeScale = 1;
+
         SceneManager.LoadScene(sceneName);
+        Time.timeScale = 1;
     }
 
     public void QuitApp()

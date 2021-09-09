@@ -116,6 +116,8 @@ public class CrownThrow : MonoBehaviour
         returnPos = (kingPos - new Vector2(transform.position.x, transform.position.y)) / returnToKingTime *2;
         returnToKing = true;
         crownAnim.SetTrigger("ThrowCrown");
+        collider.enabled = true;
+        stayWithSoldier = false;
     }
 
     public void ThrowCrown()

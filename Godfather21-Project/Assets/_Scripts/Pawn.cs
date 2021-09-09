@@ -42,10 +42,15 @@ public class Pawn : MonoBehaviour
     private void OnDestroy()
     {
         PawnDeath.Invoke(this);
+    }
+
+    public void PreDestroy()
+    {
         mortIcone.SetActive(true);
         mortIcone.transform.parent = null;
         mortIcone.GetComponent<Animator>().enabled = true;
         Destroy(mortIcone, 1);
+        Destroy(gameObject);
     }
 
     // Update is called once per frame
@@ -121,9 +126,9 @@ public class Pawn : MonoBehaviour
             {
                 CombatIcone.gameObject.SetActive(false);
                 if (Random.value < 0.5)
-                    Destroy(gameObject);
+                    PreDestroy();
                 else
-                    Destroy(Enemy);
+                    Enemy.GetComponent<Pawn>().PreDestroy();
             }
         }
     }
@@ -133,7 +138,7 @@ public class Pawn : MonoBehaviour
         if (collision.tag == "Enemy" && tag != "Enemy" || collision.tag == "Ally" && tag != "Ally")
         {
             if (Enemy)
-                Destroy(gameObject);
+                PreDestroy();
             else
             {
                 movetype = MOVEMENT_TYPE.BATTLE;
@@ -148,15 +153,6 @@ public class Pawn : MonoBehaviour
             }
             return;
         }
-        if(collision.name == "Crown")
-        {
-            if (!(movetype == MOVEMENT_TYPE.CROWN_DIRECTION))
-            {
-                currentDirection = ((Vector2)(collision.transform.position - transform.position)).normalized;
-                movetype = MOVEMENT_TYPE.CROWN_DIRECTION;
-            }
-        }
-
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -167,8 +163,6 @@ public class Pawn : MonoBehaviour
             movetype = isControlled ? MOVEMENT_TYPE.CONTROLED : MOVEMENT_TYPE.IDLE;
             CombatIcone.gameObject.SetActive(false);
         }
-        if (collision.name == "Crown")
-            ChangeMoveType(MOVEMENT_TYPE.IDLE);
     }
 
     public void ChangeMoveType(MOVEMENT_TYPE type , Vector2 vector = default(Vector2),float duration = 0)

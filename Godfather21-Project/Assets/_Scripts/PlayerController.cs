@@ -145,23 +145,27 @@ public class PlayerController : MonoBehaviour
             target.SetActive(true);
             target.transform.position = transform.position + throwDirection.normalized * throwDirection.magnitude * -maxRange;
             tempDirection = throwDirection.normalized * throwDirection.magnitude * -maxRange;
-            crown.transform.position = transform.position + throwDirection.normalized;
+            crown.transform.position = transform.position + throwDirection.normalized * throwDirection.magnitude/2;
             if (!soundIsPlaying)
             {
                 soundIsPlaying = true;
                 audio.clip = audioClips[0];
                 audio.Play();
             }
+            player.SetVibration(0, tempDirection.magnitude / maxRange);
         }
         else
         {
+            player.SetVibration(0, 0);
+            tempDirection = Vector2.zero;
             crown.transform.position = crown.kingHeadOffset + (Vector2)transform.position;
             target.SetActive(false);
             soundIsPlaying = false;
         }
 
-        if (fire)
+        if (fire && tempDirection.magnitude>1.5f)
         {
+            player.SetVibration(0, 0);
             kingHasCrown = false;
             CapacityUI.UI.CrownToggle(playerID, false);
             animator.SetBool("Crowned", false);

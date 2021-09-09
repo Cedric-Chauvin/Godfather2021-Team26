@@ -17,6 +17,7 @@ public class CrownThrow : MonoBehaviour
     private bool stayWithKing = true;
     bool hasReachedTarget = false;
     List<Pawn> pawnInRange = new List<Pawn>();
+    Animator landEffect = null;
 
     [SerializeField] float aggroRange = 1;
     [SerializeField] float initialSpeed =5;
@@ -37,6 +38,7 @@ public class CrownThrow : MonoBehaviour
         
         enemyTag = unitTag == "Ally"? "Enemy" : "Ally" ;
         crownAnim.SetFloat("PlayerID", unitTag == "Ally" ? 0f : 1f);
+        landEffect = transform.GetChild(0).GetComponent<Animator>();
     }
 
     private void Update()
@@ -58,6 +60,7 @@ public class CrownThrow : MonoBehaviour
                 hasReachedTarget = true;
                 acc = 0;
                 crownAnim.SetTrigger("OnGround");
+                landEffect.Play("Land",0,0);
                 ContactFilter2D contactFilter = new ContactFilter2D();
                 contactFilter.useTriggers = false;
                 List<Collider2D> result = new List<Collider2D>();
@@ -107,6 +110,7 @@ public class CrownThrow : MonoBehaviour
             pawnInRange.Remove(collision.GetComponent<Pawn>());
             pawnInRange.ForEach(p => p.ChangeMoveType(Pawn.MOVEMENT_TYPE.IDLE));
             pawnInRange.Clear();
+            landEffect.Play("Land", 0, 1); ;
         }
         else if (collision.gameObject.CompareTag("Player") && hasReachedTarget)
         {

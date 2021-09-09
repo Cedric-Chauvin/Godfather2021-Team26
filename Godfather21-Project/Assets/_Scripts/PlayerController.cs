@@ -185,7 +185,7 @@ public class PlayerController : MonoBehaviour
 
     public void MoveSoldier()
     {
-        Vector2 moveDirection = new Vector2(player.GetAxis("Move Horizontal"), player.GetAxis("Move Vertical"));
+        Vector2 moveDirection = new Vector2(player.GetAxis("MovePawnHorizontal"), player.GetAxis("MovePawnVertical"));
         allyWithCrown.ControlledMove(moveDirection * soldierSpeed);
     }
 

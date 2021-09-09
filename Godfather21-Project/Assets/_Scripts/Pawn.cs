@@ -93,6 +93,7 @@ public class Pawn : MonoBehaviour
                 rgb.velocity = currentDirection * walkSpeed;
                 break;
             case MOVEMENT_TYPE.LISTEN:
+            case MOVEMENT_TYPE.CROWN_DIRECTION:
                 rgb.velocity = currentDirection * walkSpeed;
                 break;
             case MOVEMENT_TYPE.BATTLE:
@@ -205,6 +206,11 @@ public class Pawn : MonoBehaviour
                 if (coroutine != null)
                     StopCoroutine(coroutine);
                 isControlled = true;
+                break;
+            case MOVEMENT_TYPE.CROWN_DIRECTION:
+                if (coroutine != null)
+                    StopCoroutine(coroutine);
+                currentDirection = (vector - (Vector2)transform.position).normalized;
                 break;
         }
     }

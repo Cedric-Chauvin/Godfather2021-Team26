@@ -16,7 +16,9 @@ public class CrownThrow : MonoBehaviour
     public bool stayWithSoldier = false;
     private bool stayWithKing = true;
     bool hasReachedTarget = false;
+    List<Pawn> pawnInRange = new List<Pawn>();
 
+    [SerializeField] float aggroRange = 1;
     [SerializeField] float initialSpeed =5;
     [SerializeField] float acc;
     public Vector3 speed;
@@ -54,6 +56,19 @@ public class CrownThrow : MonoBehaviour
                 hasReachedTarget = true;
                 acc = 0;
                 crownAnim.SetTrigger("OnGround");
+                ContactFilter2D contactFilter = new ContactFilter2D();
+                contactFilter.useTriggers = false;
+                List<Collider2D> result = new List<Collider2D>();
+                int nbCollider = Physics2D.OverlapCircle(transform.position, aggroRange, contactFilter, result);
+                for (int i = 0; i < nbCollider; i++)
+                {
+                    Pawn p = result[i].GetComponent<Pawn>();
+                    if (p)
+                    {
+                        pawnInRange.Add(p);
+                        p.ChangeMoveType(Pawn.MOVEMENT_TYPE.CROWN_DIRECTION, transform.position);
+                    }
+                }
             }
             else
             {
@@ -87,6 +102,9 @@ public class CrownThrow : MonoBehaviour
             transform.SetParent(collision.transform); // picked up by soldier
             transform.localPosition = new Vector2(0, 0.7f);
             collider.enabled = false;
+            pawnInRange.Remove(collision.GetComponent<Pawn>());
+            pawnInRange.ForEach(p => p.ChangeMoveType(Pawn.MOVEMENT_TYPE.IDLE));
+            pawnInRange.Clear();
         }
         else if (collision.gameObject.CompareTag("Player") && hasReachedTarget)
         {
@@ -127,6 +145,7 @@ public class CrownThrow : MonoBehaviour
         crownAnim.SetTrigger("ThrowCrown");
         collider.enabled = true;
         stayWithSoldier = false;
+        transform.SetParent(null);
     }
 
     public void ThrowCrown()

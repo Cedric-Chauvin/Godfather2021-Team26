@@ -33,6 +33,8 @@ public class Pawn : MonoBehaviour
     private Transform regroupTransform = null;
     private SpriteRenderer rallyFeedback = null;
     private Animator rallyFeedbackAnim = null;
+    private Animator CameraShake = null;
+    private Animator powerUp = null;
 
     AudioSource audio;
     [SerializeField] List<AudioClip> audioClips;
@@ -46,6 +48,8 @@ public class Pawn : MonoBehaviour
         combatIcone = transform.GetChild(2);
         rallyFeedback = transform.GetChild(3).GetComponent<SpriteRenderer>();
         rallyFeedbackAnim = rallyFeedback.GetComponent<Animator>();
+        powerUp = transform.GetChild(4).GetComponent<Animator>();
+        CameraShake = Camera.main.GetComponent<Animator>();
     }
 
     private void OnDestroy()
@@ -62,6 +66,7 @@ public class Pawn : MonoBehaviour
         mortIcone.GetComponent<Animator>().enabled = true;
         Destroy(mortIcone, 1);
         Destroy(gameObject);
+        CameraShake.Play("Shake", 0, 0);
     }
 
     // Update is called once per frame
@@ -157,9 +162,9 @@ public class Pawn : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Enemy" && tag != "Enemy" || collision.tag == "Ally" && tag != "Ally" && collision.isTrigger)
+        if ((collision.tag == "Enemy" && tag != "Enemy" || collision.tag == "Ally" && tag != "Ally") && collision.isTrigger)
         {
-            if (Enemy)
+            if (Enemy && collision.gameObject!=Enemy)
                 PreDestroy();
             else
             {
@@ -206,6 +211,7 @@ public class Pawn : MonoBehaviour
                 if (coroutine != null)
                     StopCoroutine(coroutine);
                 isControlled = true;
+                powerUp.Play("Play", 0, 0);
                 break;
             case MOVEMENT_TYPE.CROWN_DIRECTION:
                 if (coroutine != null)

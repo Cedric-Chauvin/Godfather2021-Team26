@@ -6,7 +6,7 @@ public class FeedbackOrder : MonoBehaviour
 {
     const int nbFleche = 10;
     const float terainY = 4.5f;
-    const float xOffset = 4;
+    const float xOffset = 7;
     const float duration = 2;
     const float speed = 1;
 
@@ -35,7 +35,7 @@ public class FeedbackOrder : MonoBehaviour
             float dif = duration - timer;
             if (dif < 1) 
             {
-                Color color = new Color(1, 1, 1, dif*0.5f);
+                Color color = new Color(1, 1, 1, dif*0.7f);
                 foreach (SpriteRenderer item in fleches)
                 {
                     item.color = color;
@@ -43,7 +43,7 @@ public class FeedbackOrder : MonoBehaviour
             }
             else if (timer < 1)
             {
-                Color color = new Color(1, 1, 1, timer * 0.5f);
+                Color color = new Color(1, 1, 1, timer * 0.7f);
                 foreach (SpriteRenderer item in fleches)
                 {
                     item.color = color;

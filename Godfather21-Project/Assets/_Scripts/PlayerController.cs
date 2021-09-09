@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
     private Transform mortIcone = null;
     private FeedbackOrder feedbackOrder = null;
     private Animator animator = null;
+    private Animator powerUp = null;
 
     public UnityEvent<int> KingDied;
     public UnityEvent<int> AllyWithCrownDied;
@@ -47,11 +48,11 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         player = Rewired.ReInput.players.GetPlayer(playerID);
-        GetComponent<Animator>().Play("Idle", 0, Random.value);
         mortIcone = transform.GetChild(0);
         crown.unitTag = playerID == 0 ? "Ally" : "Enemy";
         feedbackOrder = GetComponentInChildren<FeedbackOrder>();
         animator = GetComponent<Animator>();
+        powerUp = transform.GetChild(3).GetComponent<Animator>();
     }
 
     private void Start()
@@ -207,6 +208,8 @@ public class PlayerController : MonoBehaviour
         kingHasCrown = b;
         if(CapacityUI.UI)
             CapacityUI.UI.CrownToggle(playerID, b);
+        if (b)
+            powerUp.Play("Play", 0, 0);
     }
 
     IEnumerator RallyTimer()

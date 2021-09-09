@@ -105,7 +105,7 @@ public class CrownThrow : MonoBehaviour
             stayWithSoldier = true;
             allyPickedUpCrown.Invoke(collision.gameObject);
             transform.SetParent(collision.transform); // picked up by soldier
-            transform.localPosition = new Vector2(0, 0.7f);
+            transform.localPosition = new Vector2(0, 0.6f);
             collider.enabled = false;
             pawnInRange.Remove(collision.GetComponent<Pawn>());
             pawnInRange.ForEach(p => p.ChangeMoveType(Pawn.MOVEMENT_TYPE.IDLE));

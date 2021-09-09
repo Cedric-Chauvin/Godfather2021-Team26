@@ -92,7 +92,7 @@ public class CrownThrow : MonoBehaviour
         {
             returnToKing = false;
             collider.enabled = false;
-            collision.gameObject.GetComponent<PlayerController>().kingHasCrown = true;
+            collision.gameObject.GetComponent<PlayerController>().CrownToggle(true);
             stayWithKing = true;
             crownAnim.SetTrigger("PickedUp");
             speed = new Vector2(0,0);

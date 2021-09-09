@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7028040870724909352}
   - component: {fileID: 3190576401388501767}
   m_Layer: 0
-  m_Name: Fleche-haut
+  m_Name: Fleche-Bleu 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -71,7 +71,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 6741ad157174ba7488ea9cb9e982fa83, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 63ed62b369a087f4795b5d474f9b7a88, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

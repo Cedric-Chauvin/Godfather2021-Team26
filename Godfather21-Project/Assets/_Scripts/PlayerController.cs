@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 throwDirection;
     Vector2 tempDirection;
-    public bool kingHasCrown = true;
+    private bool kingHasCrown = true;
     bool soldierHasCrown = false;
     private bool fire;
     private bool canRally = true;
@@ -156,6 +156,7 @@ public class PlayerController : MonoBehaviour
         if (fire)
         {
             kingHasCrown = false;
+            CapacityUI.UI.CrownToggle(playerID, false);
             crown.targetPos = tempDirection;
             crown.kingPos = transform.position;
             crown.ThrowCrown();
@@ -188,18 +189,28 @@ public class PlayerController : MonoBehaviour
         allyWithCrown.ControlledMove(moveDirection * soldierSpeed);
     }
 
+    public void CrownToggle(bool b)
+    {
+        kingHasCrown = b;
+        CapacityUI.UI.CrownToggle(playerID, b);
+    }
+
     IEnumerator RallyTimer()
     {
+        CapacityUI.UI.RallyUsable(playerID, false);
         canRally = false;
         yield return new WaitForSeconds(rallingCooldown);
         canRally = true;
+        CapacityUI.UI.RallyUsable(playerID, true);
     }
 
     IEnumerator OrderTimer()
     {
         canOrder = false;
+        CapacityUI.UI.OrderUsable(playerID, false);
         yield return new WaitForSeconds(orderCooldown);
         canOrder = true;
+        CapacityUI.UI.OrderUsable(playerID, true);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

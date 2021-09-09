@@ -178,7 +178,6 @@ public class PlayerController : MonoBehaviour
     public void AssignSoldier(GameObject ally)
     {
         allyWithCrown = ally.GetComponent<Pawn>();
-        Debug.Log("got ally :)");
         allyWithCrown.ChangeMoveType(Pawn.MOVEMENT_TYPE.CONTROLED);
         soldierHasCrown = true;
     }

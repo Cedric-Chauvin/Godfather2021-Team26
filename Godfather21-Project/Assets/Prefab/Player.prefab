@@ -239,12 +239,11 @@ MonoBehaviour:
   battledirection: {x: 0, y: 0}
   orderDuration: 3
   orderCooldown: 4
-  kingHasCrown: 1
   Defeat:
     m_PersistentCalls:
       m_Calls: []
   audioClips:
-  - {fileID: 8300000, guid: 835709cd1d1f0224293123f0d3b599c8, type: 3}
+  - {fileID: 8300000, guid: 3229159d90f7b0145ab3ad228de185ea, type: 3}
   - {fileID: 8300000, guid: 1cab3b690c82dfc4ab56c7b35710da19, type: 3}
   - {fileID: 8300000, guid: 81e4c7380b14f4848905afb75f5cde63, type: 3}
   - {fileID: 8300000, guid: 4e3e180bd4186554887c2807a343aaa7, type: 3}

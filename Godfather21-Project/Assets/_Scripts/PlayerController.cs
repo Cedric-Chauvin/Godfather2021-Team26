@@ -233,11 +233,17 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         string enemyTag = playerID == 0 ? "Enemy" : "Ally";
-        if (collision.gameObject.CompareTag(enemyTag)){
-            int i = playerID == 0 ? 1 : 0;
+        if (collision.gameObject.CompareTag(enemyTag)){        
             audio.clip = audioClips[2];
             audio.Play();
-            KingDied.Invoke(i);
+            animator.Play("Died", 0, 0);
+            Invoke("Kill", 1);
         }
+    }
+
+    private void Kill()
+    {
+        int i = playerID == 0 ? 1 : 0;
+        KingDied.Invoke(i);
     }
 }

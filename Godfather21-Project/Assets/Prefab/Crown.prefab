@@ -120,6 +120,10 @@ MonoBehaviour:
   EnemyHasCrown:
     m_PersistentCalls:
       m_Calls: []
+  audioClips:
+  - {fileID: 8300000, guid: 6935abc72a3d5c544b6457769ad83aa1, type: 3}
+  - {fileID: 8300000, guid: 60dd99b544e15c24c8c338bae812bcf7, type: 3}
+  - {fileID: 8300000, guid: 7c7ba6daa6a89134f8410ddcd56e6066, type: 3}
 --- !u!58 &-5401143129462309175
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -185,9 +189,9 @@ AudioSource:
   m_GameObject: {fileID: 7487523211111546064}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: d17b4312c0cf824499dda983916dda97, type: 2}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

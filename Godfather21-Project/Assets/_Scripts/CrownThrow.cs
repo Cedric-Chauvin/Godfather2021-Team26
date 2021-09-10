@@ -32,9 +32,13 @@ public class CrownThrow : MonoBehaviour
 
     public UnityEvent<int> EnemyHasCrown;
 
+     AudioSource audio;
+    [SerializeField] List<AudioClip> audioClips;
+
     private void Start()
     {
         crownAnim = GetComponent<Animator>();
+        audio = GetComponent<AudioSource>();
         
         enemyTag = unitTag == "Ally"? "Enemy" : "Ally" ;
         crownAnim.SetFloat("PlayerID", unitTag == "Ally" ? 0f : 1f);
@@ -60,7 +64,9 @@ public class CrownThrow : MonoBehaviour
                 hasReachedTarget = true;
                 acc = 0;
                 crownAnim.SetTrigger("OnGround");
-                landEffect.Play("Land",0,0);
+                landEffect.Play("Land",0,0); 
+                audio.clip = audioClips[0];
+                audio.Play();
                 ContactFilter2D contactFilter = new ContactFilter2D();
                 contactFilter.useTriggers = false;
                 List<Collider2D> result = new List<Collider2D>();
@@ -110,7 +116,9 @@ public class CrownThrow : MonoBehaviour
             pawnInRange.Remove(collision.GetComponent<Pawn>());
             pawnInRange.ForEach(p => p.ChangeMoveType(Pawn.MOVEMENT_TYPE.IDLE));
             pawnInRange.Clear();
-            landEffect.Play("Land", 0, 1); ;
+            landEffect.Play("Land", 0, 1);
+            audio.clip = audioClips[1];
+            audio.Play();
         }
         else if (collision.gameObject.CompareTag("Player") && hasReachedTarget)
         {
@@ -123,11 +131,15 @@ public class CrownThrow : MonoBehaviour
             acc = 0;
             transform.SetParent(collision.transform);
             transform.localPosition = new Vector2(0, 0) + kingHeadOffset;
+            audio.clip = audioClips[2];
+            audio.Play();
         }
         else if (collision.gameObject.CompareTag("Wall"))
         {
             hasReachedTarget = true;
             crownAnim.SetTrigger("OnGround");
+            audio.clip = audioClips[0];
+            audio.Play();
         }
         else if(!collision.isTrigger && collision.gameObject.CompareTag(enemyTag) && !returnToKing && hasReachedTarget)
         {

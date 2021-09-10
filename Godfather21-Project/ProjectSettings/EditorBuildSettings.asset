@@ -17,4 +17,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Scenes/VictoryTest.unity
     guid: 97bcc3d5b5d0f864392d791c0e78d1e6
+  - enabled: 1
+    path: Assets/_Scenes/DesertMap.unity
+    guid: f0728b9d098669844ab882ebdb7239d0
+  - enabled: 1
+    path: Assets/_Scenes/ForestMap.unity
+    guid: 62a4550f7976efd429aae8f5b7aed7f6
   m_configObjects: {}

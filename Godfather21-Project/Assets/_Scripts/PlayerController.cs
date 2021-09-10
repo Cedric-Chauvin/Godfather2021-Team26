@@ -153,7 +153,7 @@ public class PlayerController : MonoBehaviour
                 audio.clip = audioClips[0];
                 audio.Play();
             }
-            player.SetVibration(0, tempDirection.magnitude / maxRange);
+            player.SetVibration(0, (tempDirection.magnitude / maxRange)*0.7f);
         }
         else
         {

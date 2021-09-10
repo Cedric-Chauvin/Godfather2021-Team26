@@ -57,8 +57,8 @@ public class CrownThrow : MonoBehaviour
     {
         if (!stayWithSoldier && !hasReachedTarget && !stayWithKing)
         {
-            bool posXReached = transform.localPosition.x <= targetPos.x + .5 && transform.localPosition.x >= targetPos.x - .5;
-            bool posYReached = transform.localPosition.y <= targetPos.y + .5 && transform.localPosition.y >= targetPos.y - .5;
+            bool posXReached = transform.localPosition.x * transform.parent.lossyScale.x <= targetPos.x + .5 && transform.localPosition.x * transform.parent.lossyScale.x >= targetPos.x - .5;
+            bool posYReached = transform.localPosition.y * transform.parent.lossyScale.y <= targetPos.y + .5 && transform.localPosition.y * transform.parent.lossyScale.y >= targetPos.y - .5;
             if ((posXReached && posYReached) || (speed.magnitude < .1f && speed.magnitude > -.1f))
             {
                 hasReachedTarget = true;

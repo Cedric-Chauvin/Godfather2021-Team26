@@ -204,7 +204,7 @@ RectTransform:
   - {fileID: 5799282496504806166}
   - {fileID: 6221190863075383299}
   m_Father: {fileID: 6653252561864976991}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -241,7 +241,7 @@ RectTransform:
   - {fileID: 6598496308090035650}
   - {fileID: 4606504756916180665}
   m_Father: {fileID: 6653252561864976991}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -858,10 +858,10 @@ RectTransform:
   m_Father: {fileID: 6653252562334112141}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.60625005, y: 0.09111256}
-  m_AnchorMax: {x: 0.80125, y: 0.15789072}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.60749996, y: 0.09111256}
+  m_AnchorMax: {x: 0.80125, y: 0.21111113}
+  m_AnchoredPosition: {x: -0.5, y: -0.28500366}
+  m_SizeDelta: {x: 1, y: -0.5699997}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6653252560596182311
 CanvasRenderer:
@@ -891,8 +891,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 68336095e7f497847b5e398d4fef69e2, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -991,10 +991,10 @@ RectTransform:
   m_Father: {fileID: 6653252562334112141}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.18125, y: 0.104443714}
-  m_AnchorMax: {x: 0.37875003, y: 0.16889404}
-  m_AnchoredPosition: {x: -1, y: -0.5}
-  m_SizeDelta: {x: 2, y: 1}
+  m_AnchorMin: {x: 0.18125, y: 0.09111256}
+  m_AnchorMax: {x: 0.38125002, y: 0.21111113}
+  m_AnchoredPosition: {x: -1, y: -0.25909424}
+  m_SizeDelta: {x: 0, y: -0.5202007}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6653252560836272475
 CanvasRenderer:
@@ -1024,8 +1024,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 68336095e7f497847b5e398d4fef69e2, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1537,9 +1537,9 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 6653252560583213894}
-  - {fileID: 6653252562334112141}
   - {fileID: 5019469065715802540}
   - {fileID: 2587186746673719217}
+  - {fileID: 6653252562334112141}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1840,6 +1840,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6653252562334112141}
   - component: {fileID: 6653252562334112140}
+  - component: {fileID: 621864173440832309}
   - component: {fileID: 6653252562334112131}
   m_Layer: 5
   m_Name: VictoryScreen
@@ -1866,7 +1867,7 @@ RectTransform:
   - {fileID: 8137934267601128010}
   - {fileID: 1312867482665405835}
   m_Father: {fileID: 6653252561864976991}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1881,6 +1882,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6653252562334112130}
   m_CullTransparentMesh: 1
+--- !u!114 &621864173440832309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6653252562334112130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe6b4cb4d64c3514f878dafce1031595, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttons:
+  - {fileID: 6653252560836272473}
+  - {fileID: 6653252560596182309}
+  selectedImage: {fileID: 21300000, guid: cfe6ffd73071acc40bcac5bfc57326e2, type: 3}
+  normalImage: {fileID: 21300000, guid: 68336095e7f497847b5e398d4fef69e2, type: 3}
+  isVertical: 0
 --- !u!114 &6653252562334112131
 MonoBehaviour:
   m_ObjectHideFlags: 0

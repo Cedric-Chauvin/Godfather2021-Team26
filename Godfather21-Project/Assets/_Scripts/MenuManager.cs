@@ -15,6 +15,8 @@ public class MenuManager : MonoBehaviour
     [SerializeField] Sprite selectedImage;
     [SerializeField] Sprite normalImage;
 
+    [SerializeField] bool isVertical = true;
+
     private void Start()
     {
         player0 = Rewired.ReInput.players.GetPlayer(0);
@@ -24,36 +26,74 @@ public class MenuManager : MonoBehaviour
     }
     private void Update()
     {
-        if (!cursorMoving && player0.GetAxis("MovePawnVertical") <= -0.2 || player1.GetAxis("MovePawnVertical") <= -0.2)
+        if (isVertical)
         {
-            cursorMoving = true;
-            previousPosition = currentPosition;
-            currentPosition++;
-            if (currentPosition == buttons.Count)
+            if (!cursorMoving && player0.GetAxis("MovePawnVertical") <= -0.2 || player1.GetAxis("MovePawnVertical") <= -0.2)
             {
-                currentPosition = 0;
-            }else if(currentPosition < 0)
-            {
-                currentPosition = buttons.Count - 1;
+                cursorMoving = true;
+                previousPosition = currentPosition;
+                currentPosition++;
+                if (currentPosition == buttons.Count)
+                {
+                    currentPosition = 0;
+                }
+                else if (currentPosition < 0)
+                {
+                    currentPosition = buttons.Count - 1;
+                }
+                UpdateButtons();
             }
-            UpdateButtons();
-        }else if(!cursorMoving && player0.GetAxis("MovePawnVertical") >= 0.2 || player1.GetAxis("MovePawnVertical") >= 0.2)
+            else if (!cursorMoving && player0.GetAxis("MovePawnVertical") >= 0.2 || player1.GetAxis("MovePawnVertical") >= 0.2)
+            {
+                cursorMoving = true;
+                previousPosition = currentPosition;
+                currentPosition--;
+                if (currentPosition == buttons.Count)
+                {
+                    currentPosition = 0;
+                }
+                else if (currentPosition < 0)
+                {
+                    currentPosition = buttons.Count - 1;
+                }
+                UpdateButtons();
+            }
+        }
+        else
         {
-            cursorMoving = true;
-            previousPosition = currentPosition;
-            currentPosition--;
-            if (currentPosition == buttons.Count)
+            if (!cursorMoving && player0.GetAxis("MovePawnHorizontal") <= -0.2 || player1.GetAxis("MovePawnHorizontal") <= -0.2)
             {
-                currentPosition = 0;
+                cursorMoving = true;
+                previousPosition = currentPosition;
+                currentPosition--;
+                if (currentPosition == buttons.Count)
+                {
+                    currentPosition = 0;
+                }
+                else if (currentPosition < 0)
+                {
+                    currentPosition = buttons.Count - 1;
+                }
+                UpdateButtons();
             }
-            else if (currentPosition < 0)
+            else if (!cursorMoving && player0.GetAxis("MovePawnHorizontal") >= 0.2 || player1.GetAxis("MovePawnHorizontal") >= 0.2)
             {
-                currentPosition = buttons.Count - 1;
+                cursorMoving = true;
+                previousPosition = currentPosition;
+                currentPosition++;
+                if (currentPosition == buttons.Count)
+                {
+                    currentPosition = 0;
+                }
+                else if (currentPosition < 0)
+                {
+                    currentPosition = buttons.Count - 1;
+                }
+                UpdateButtons();
             }
-            UpdateButtons();
         }
 
-        if (player0.GetButtonDown("Select"))
+        if (player0.GetButtonDown("Select") || player1.GetButtonDown("Select"))
         {
             SelectedButtonPressed();
         }
@@ -77,7 +117,8 @@ public class MenuManager : MonoBehaviour
 
     IEnumerator WaitForCursor()
     {
-        yield return new WaitForSeconds(.2f);
+        yield return new WaitForSecondsRealtime(.2f);
         cursorMoving = false;
+        
     }
 }

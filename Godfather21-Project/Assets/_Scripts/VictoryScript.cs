@@ -12,6 +12,11 @@ public class VictoryScript : MonoBehaviour
     [SerializeField] GameObject redVictoryScreen;
     [SerializeField] GameObject victoryScreen;
     [SerializeField] Text victoryText;
+    [SerializeField] Text BlueVictoryCompt;
+    [SerializeField] Text RedVictoryCompt;
+
+    private static int nbVictoryBlue = 0;
+    private static int nbVictoryRed = 0;
 
     void Start()
     {
@@ -108,12 +113,21 @@ public class VictoryScript : MonoBehaviour
         {
             case 0:  // blue victory
                 blueVictoryScreen.SetActive(true);
+                nbVictoryBlue += 1;
                 break;
             case 1:  // red victory
                 redVictoryScreen.SetActive(true);
+                nbVictoryRed += 1;
                 break;
         }
+        BlueVictoryCompt.text = nbVictoryBlue.ToString();
+        RedVictoryCompt.text = nbVictoryRed.ToString();
+    }
 
+    public void ResetVictoryCount()
+    {
+        nbVictoryBlue = 0;
+        nbVictoryRed = 0;
     }
 
 }

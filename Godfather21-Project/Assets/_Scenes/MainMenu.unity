@@ -142,6 +142,10 @@ PrefabInstance:
       propertyPath: m_FlipX
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2736705530023310340, guid: 4ece94c3655362d49b7487a891b78484, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2736705530023310341, guid: 4ece94c3655362d49b7487a891b78484, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -971,6 +975,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2736705530023310340, guid: 4ece94c3655362d49b7487a891b78484, type: 3}
       propertyPath: m_FlipY
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2736705530023310340, guid: 4ece94c3655362d49b7487a891b78484, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2736705530023310341, guid: 4ece94c3655362d49b7487a891b78484, type: 3}

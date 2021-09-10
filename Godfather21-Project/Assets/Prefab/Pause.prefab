@@ -1085,6 +1085,7 @@ GameObject:
   - component: {fileID: 516719263549654997}
   - component: {fileID: 516719263549654998}
   - component: {fileID: 516719263549654999}
+  - component: {fileID: 7943618866405222230}
   m_Layer: 5
   m_Name: Pause
   m_TagString: Untagged
@@ -1173,6 +1174,26 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &7943618866405222230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 516719263549655000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe6b4cb4d64c3514f878dafce1031595, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttons:
+  - {fileID: 516719264053670590}
+  - {fileID: 516719264721016160}
+  - {fileID: 516719262754371755}
+  - {fileID: 516719264336899776}
+  - {fileID: 516719262933745540}
+  selectedImage: {fileID: 21300000, guid: cfe6ffd73071acc40bcac5bfc57326e2, type: 3}
+  normalImage: {fileID: 21300000, guid: 68336095e7f497847b5e398d4fef69e2, type: 3}
 --- !u!1 &516719263646957638
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Tutorial : MonoBehaviour
 {
     int currentPos = 0;
-    [SerializeField] List<Image> images;
+    [SerializeField] List<Sprite> images;
     public Image currentImage;
 
     public void NextImage()
@@ -17,7 +17,7 @@ public class Tutorial : MonoBehaviour
             currentPos = 0;
         }
 
-        currentImage = images[currentPos];
+        currentImage.sprite = images[currentPos];
     }
     
     public void PreviousImage()
@@ -28,6 +28,6 @@ public class Tutorial : MonoBehaviour
             currentPos = images.Count -1;
         }
 
-        currentImage = images[currentPos];
+        currentImage.sprite = images[currentPos];
     }
 }
